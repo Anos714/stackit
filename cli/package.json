@@ -1,19 +1,25 @@
 {
-  "name": "stackit",
+  "name": "create-stackit-app",
   "version": "0.1.0",
   "description": "Opinionated full-stack project scaffolder — MERN, PERN, Hono + Postgres, Go Fiber",
-  "module": "src/index.ts",
   "type": "module",
-  "private": true,
+  "license": "MIT",
   "bin": {
-    "stackit": "./src/index.ts"
+    "stackit": "./dist/stackit.js",
+    "create-stackit-app": "./dist/stackit.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "bun run src/index.ts",
     "start": "bun run src/index.ts",
     "test": "bun test",
     "check": "bunx tsc --noEmit",
-    "build": "bun build src/index.ts --target bun --outfile dist/stackit"
+    "build": "bun build src/index.ts --target node --outfile dist/stackit.js",
+    "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0",
@@ -29,5 +35,8 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
