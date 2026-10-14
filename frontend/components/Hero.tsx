@@ -100,7 +100,7 @@ export function Hero() {
               <div className="px-5 py-5">
                 <CodeBlock
                   compact
-                  code={`$ bun run src/index.ts create my-app --stack mern --runtime bun -y
+                  code={`$ bunx create-stackit-app@latest create my-app --stack mern -y
 ✔ Environment looks good
 ✔ Scaffolded 33 files → ./my-app
 ✔ Done! my-app (mern, typescript, bun)

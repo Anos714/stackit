@@ -4,10 +4,27 @@ Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick 
 whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber** — and get a
 best-practice monorepo (Vite + React frontend, layered API backend, Docker for the DB).
 
+Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit-app) —
+no install needed:
+
 ```bash
-bun run src/index.ts create my-app
+bunx create-stackit-app@latest create my-app
 # or non-interactive:
-bun run src/index.ts create my-app --stack mern --language typescript --runtime bun --pm bun -y
+bunx create-stackit-app@latest create my-app --stack mern --language typescript --runtime bun --pm bun -y
+```
+
+Global install (`stackit` command everywhere):
+
+```bash
+npm install -g create-stackit-app
+stackit create my-app
+```
+
+From source (this repo, run inside `cli/`):
+
+```bash
+bun install
+bun run src/index.ts create my-app
 ```
 
 ## Requirements

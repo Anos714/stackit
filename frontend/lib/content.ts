@@ -18,7 +18,7 @@ export const STACKS: Stack[] = [
     backend: "Express + Mongoose",
     database: "MongoDB",
     runtime: "Bun / Node",
-    command: "bun run src/index.ts create my-app --stack mern --language typescript --runtime bun --pm bun -y",
+    command: "bunx create-stackit-app@latest create my-app --stack mern --language typescript --runtime bun --pm bun -y",
     files: [
       { path: "client/src/App.tsx", note: "demo page wired to the API" },
       { path: "server/src/app.ts", note: "app factory + middleware" },
@@ -35,7 +35,7 @@ export const STACKS: Stack[] = [
     backend: "Express + pg",
     database: "PostgreSQL",
     runtime: "Bun / Node",
-    command: "bun run src/index.ts create shop-api --stack pern --language typescript --runtime node --pm pnpm -y",
+    command: "bunx create-stackit-app@latest create shop-api --stack pern --language typescript --runtime node --pm pnpm -y",
     files: [
       { path: "client/src/App.tsx", note: "demo page wired to the API" },
       { path: "server/src/app.ts", note: "app factory + middleware" },
@@ -52,7 +52,7 @@ export const STACKS: Stack[] = [
     backend: "Hono + zod-validator",
     database: "PostgreSQL",
     runtime: "Bun-native / Node",
-    command: "bun run src/index.ts create edge-api --stack hono-pg --language typescript --runtime bun --pm bun -y",
+    command: "bunx create-stackit-app@latest create edge-api --stack hono-pg --language typescript --runtime bun --pm bun -y",
     files: [
       { path: "client/src/App.tsx", note: "demo page wired to the API" },
       { path: "server/src/app.ts", note: "hono app + cors + logger" },
@@ -69,7 +69,7 @@ export const STACKS: Stack[] = [
     backend: "Fiber + pgx (optional)",
     database: "Postgres-ready",
     runtime: "Go 1.24+",
-    command: "bun run src/index.ts create fast-api --stack go-fiber -y",
+    command: "bunx create-stackit-app@latest create fast-api --stack go-fiber -y",
     files: [
       { path: "client/src/App.tsx", note: "demo page wired to the API" },
       { path: "server/cmd/api/main.go", note: "entrypoint" },
@@ -132,7 +132,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "Do I need Bun installed?",
-    a: "Only to run the CLI itself (bun run src/index.ts). Generated projects run on whatever you pick — Node 20+, Bun 1.2+, or Go 1.24+. The CLI even checks your machine first and tells you exactly what's missing.",
+    a: "No — bunx/npx runs the published binary with plain Node. You only need Bun if you run the CLI from source. Generated projects run on whatever you pick — Node 20+, Bun 1.2+, or Go 1.24+. The CLI even checks your machine first and tells you exactly what's missing.",
   },
   {
     q: "JavaScript or TypeScript?",
@@ -148,7 +148,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "Is stackit published to npm?",
-    a: "Not yet — run it from source with Bun (git clone + bun install, ~10 seconds). A published bunx/npx binary is on the roadmap, along with more stacks.",
+    a: "Yes! No setup needed: bunx create-stackit-app@latest create my-app --stack mern -y (or npx). Prefer a global install? npm install -g create-stackit-app gives you the stackit command everywhere. Source runners can still git clone + bun install from cli/.",
   },
 ];
 

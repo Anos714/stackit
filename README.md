@@ -4,6 +4,12 @@ Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick 
 whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber** — and get a
 best-practice monorepo in one command.
 
+Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit-app):
+
+```bash
+bunx create-stackit-app@latest create my-app --stack mern -y
+```
+
 ```
 cli/        # the stackit CLI (Bun + TypeScript)
 frontend/   # landing page + docs site (Next.js 16 + Tailwind v4)
