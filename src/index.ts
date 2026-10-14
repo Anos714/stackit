@@ -1,5 +1,5 @@
-import { program } from "./cli";
+#!/usr/bin/env bun
+import { buildProgram } from "./cli/index.ts";
 
-console.log("hello world");
-
-program.parse();
+const program = buildProgram();
+await program.parseAsync(Bun.argv);
