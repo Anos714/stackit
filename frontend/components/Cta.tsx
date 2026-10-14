@@ -42,8 +42,7 @@ export function Cta() {
               </p>
               <div className="mx-auto mt-8 max-w-xl text-left">
                 <CodeBlock
-                  code={`git clone <repo> stackit && cd stackit/cli && bun install
-bun run src/index.ts create my-app --stack mern -y`}
+                  code={`bunx create-stackit-app@latest create my-app --stack mern -y`}
                   title="terminal"
                 />
               </div>

@@ -94,7 +94,7 @@ export function StackTabs() {
             <div className="flex min-w-0 flex-col gap-4">
               <div>
                 <p className="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-500">
-                  <FileCode2 className="h-3.5 w-3.5" /> scaffold it <span className="text-zinc-600">· run from cli/</span>
+                  <FileCode2 className="h-3.5 w-3.5" /> scaffold it <span className="text-zinc-600">· via bunx, no install</span>
                 </p>
                 <CodeBlock code={stack.command} title={`terminal — ${stack.id}`} />
               </div>

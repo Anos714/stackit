@@ -41,11 +41,7 @@ export default function DocsPage() {
           </h1>
           <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-zinc-400">
             Install it, scaffold with it, run what it generates. Everything below mirrors the
-            CLI&apos;s real behavior — all commands run from the{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[13px] text-volt-300">
-              cli/
-            </code>{" "}
-            folder.
+            CLI&apos;s real behavior.
           </p>
         </Reveal>
 
@@ -73,36 +69,53 @@ export default function DocsPage() {
           </details>
 
           <div className="min-w-0 space-y-14">
-            <DocSection id="install" kicker="install" title="Installation">
-              <p>You need Bun 1.2+ to run the CLI. Then:</p>
-              <CodeBlock
-                title="terminal"
-                code={`git clone <your-repo-url> stackit
+          <DocSection id="install" kicker="install" title="Installation">
+            <p>No setup needed — run it straight from the registry (Bun 1.2+ for the CLI itself is not even required this way):</p>
+            <CodeBlock
+              title="terminal"
+              code={`bunx create-stackit-app@latest create my-app
+# or with npm
+npx create-stackit-app@latest create my-app`}
+            />
+            <p>Prefer a permanent command? Install once, use everywhere:</p>
+            <CodeBlock
+              title="terminal"
+              code={`npm install -g create-stackit-app
+stackit create my-app`}
+            />
+            <p>
+              Running from source instead? Clone, install, and run from{" "}
+              <code>cli/</code> — every <code>bunx …</code> command below becomes{" "}
+              <code>bun run src/index.ts …</code>:
+            </p>
+            <CodeBlock
+              title="terminal"
+              code={`git clone <your-repo-url> stackit
 cd stackit/cli
 bun install`}
-              />
-              <p>
-                That&apos;s it — no global install, no published package yet. Per-stack runtimes
-                (Node 20+, Bun 1.2+, Go 1.24+) are checked automatically before scaffolding.
-              </p>
-            </DocSection>
+            />
+            <p>
+              Per-stack runtimes (Node 20+, Bun 1.2+, Go 1.24+) are checked automatically before
+              scaffolding.
+            </p>
+          </DocSection>
 
-            <DocSection id="quickstart" kicker="quickstart" title="Quickstart">
-              <p>Interactive mode asks 4 questions — stack, language, runtime, package manager:</p>
-              <CodeBlock title="terminal" code={`bun run src/index.ts create my-app`} />
-              <p>Fully non-interactive with flags (great for scripts and CI):</p>
-              <CodeBlock
-                title="terminal"
-                code={`# MERN + Bun + TypeScript, zero prompts
-bun run src/index.ts create my-app --stack mern --language typescript --runtime bun --pm bun -y
+          <DocSection id="quickstart" kicker="quickstart" title="Quickstart">
+            <p>Interactive mode asks 4 questions — stack, language, runtime, package manager:</p>
+            <CodeBlock title="terminal" code={`bunx create-stackit-app@latest create my-app`} />
+            <p>Fully non-interactive with flags (great for scripts and CI):</p>
+            <CodeBlock
+              title="terminal"
+              code={`# MERN + Bun + TypeScript, zero prompts
+bunx create-stackit-app@latest create my-app --stack mern --language typescript --runtime bun --pm bun -y
 
 # PERN + Node + JavaScript, skip install & git (fastest)
-bun run src/index.ts create shop-api --stack pern --language javascript --runtime node --pm npm -y --no-install --no-git
+bunx create-stackit-app@latest create shop-api --stack pern --language javascript --runtime node --pm npm -y --no-install --no-git
 
 # Go + Fiber (language/runtime auto-resolve to go)
-bun run src/index.ts create fast-api --stack go-fiber -y`}
-              />
-            </DocSection>
+bunx create-stackit-app@latest create fast-api --stack go-fiber -y`}
+            />
+          </DocSection>
 
             <DocSection id="commands" kicker="commands" title="Commands & flags">
               <p>
