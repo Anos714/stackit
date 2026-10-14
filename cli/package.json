@@ -1,12 +1,12 @@
 {
   "name": "create-stackit-app",
   "version": "0.1.0",
-  "description": "Opinionated full-stack project scaffolder — MERN, PERN, Hono + Postgres, Go Fiber",
+  "description": "Opinionated full-stack project scaffolder \u2014 MERN, PERN, Hono + Postgres, Go Fiber",
   "type": "module",
   "license": "MIT",
   "bin": {
-    "stackit": "./dist/stackit.js",
-    "create-stackit-app": "./dist/stackit.js"
+    "stackit": "dist/stackit.js",
+    "create-stackit-app": "dist/stackit.js"
   },
   "files": [
     "dist",
