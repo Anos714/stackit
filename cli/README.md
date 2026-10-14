@@ -1,8 +1,17 @@
 # stackit ⚡
 
+[![npm version](https://img.shields.io/npm/v/create-stackit-app.svg)](https://www.npmjs.com/package/create-stackit-app)
+[![license](https://img.shields.io/npm/l/create-stackit-app.svg)](https://www.npmjs.com/package/create-stackit-app)
+
 Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick the
 whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber** — and get a
 best-practice monorepo (Vite + React frontend, layered API backend, Docker for the DB).
+
+## 🌐 Live demo & docs
+
+<!-- TODO: replace with real Vercel URL after deploy, then publish -->
+**[Live site](https://YOUR-SITE.vercel.app)** — landing page, stack previews
+and full documentation.
 
 Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit-app) —
 no install needed:
