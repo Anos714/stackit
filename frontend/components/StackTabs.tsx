@@ -5,6 +5,7 @@ import { useState } from "react";
 import { STACKS } from "../lib/content";
 import { CodeBlock } from "./CodeBlock";
 import { Reveal, SectionHeading } from "./Reveal";
+import { Spotlight } from "./Spotlight";
 
 export function StackTabs() {
   const [active, setActive] = useState(STACKS[0].id);
@@ -53,9 +54,9 @@ export function StackTabs() {
 
         {/* panel */}
         <Reveal delay={180}>
-          <div
+          <Spotlight
             key={stack.id}
-            className="mt-6 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:p-8 lg:grid-cols-[1.1fr_1fr]"
+            className="mt-6 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors duration-300 hover:border-volt-400/20 sm:p-8 lg:grid-cols-[1.1fr_1fr]"
           >
             <div>
               <div className="flex flex-wrap gap-2">
@@ -68,7 +69,7 @@ export function StackTabs() {
                   </span>
                 ))}
               </div>
-              <h3 className="mt-4 text-2xl font-semibold tracking-tight text-zinc-50">
+              <h3 className="mt-4 font-display text-2xl font-semibold tracking-[-0.01em] text-zinc-50">
                 {stack.label}
               </h3>
               <p className="mt-2 text-[15px] leading-relaxed text-zinc-400">{stack.tagline}</p>
@@ -93,7 +94,7 @@ export function StackTabs() {
             <div className="flex flex-col gap-4">
               <div>
                 <p className="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-500">
-                  <FileCode2 className="h-3.5 w-3.5" /> scaffold it
+                  <FileCode2 className="h-3.5 w-3.5" /> scaffold it <span className="text-zinc-600">· run from cli/</span>
                 </p>
                 <CodeBlock code={stack.command} title={`terminal — ${stack.id}`} />
               </div>
@@ -111,7 +112,7 @@ export function StackTabs() {
                 <p className="mt-2 text-zinc-600">→ frontend :5173 · api :5000 · health /api/health</p>
               </div>
             </div>
-          </div>
+          </Spotlight>
         </Reveal>
       </div>
     </section>

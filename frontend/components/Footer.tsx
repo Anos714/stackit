@@ -1,5 +1,6 @@
-import { Star, Zap } from "lucide-react";
+import { Star } from "lucide-react";
 import Link from "next/link";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
@@ -7,12 +8,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-volt-400 text-black">
-                <Zap className="h-4.5 w-4.5" strokeWidth={2.5} fill="currentColor" />
-              </span>
-              <span className="text-lg font-semibold tracking-tight text-zinc-50">stackit</span>
-            </div>
+            <Logo compact />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">
               Opinionated full-stack scaffolder. MERN, PERN, Hono + Postgres, Go + Fiber — one
               command, best-practice repo.

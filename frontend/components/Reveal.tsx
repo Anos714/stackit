@@ -62,7 +62,7 @@ export function SectionHeading({
         <span className="text-zinc-600">$ </span>
         {kicker}
       </p>
-      <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+      <h2 className="mt-4 font-display text-balance text-3xl font-semibold tracking-[-0.015em] text-zinc-50 sm:text-4xl">
         {title}
       </h2>
       {body && <p className="mt-4 text-pretty text-base leading-relaxed text-zinc-400">{body}</p>}
