@@ -17,10 +17,10 @@ bun run src/index.ts create my-app --stack mern --language typescript --runtime 
   - `mern` / `pern` / `hono-pg` → Node >= 20 and/or Bun >= 1.2
   - `go-fiber` → Go >= 1.24 (+ Node >= 20 for the Vite frontend)
 
-## Chalane ka tarika (run / develop)
+## Running the CLI (run / develop)
 
 ```bash
-bun install                  # install CLI deps (pehli baar)
+bun install                  # install CLI deps (first time only)
 bun run src/index.ts --help  # CLI help
 
 # interactive scaffold

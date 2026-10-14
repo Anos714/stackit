@@ -18,7 +18,7 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div className="fixed inset-x-0 top-16 z-40 h-px bg-transparent" aria-hidden>
+    <div className="fixed inset-x-0 top-[100px] z-40 h-px bg-transparent" aria-hidden>
       <div
         className="h-full origin-left bg-gradient-to-r from-volt-500 via-volt-400 to-cyan-300 shadow-[0_0_12px_rgba(190,242,100,0.7)]"
         style={{ transform: `scaleX(${p})` }}
@@ -48,7 +48,7 @@ export function DocsSidebar({ sections }: { sections: { id: string; label: strin
   }, [sections]);
 
   return (
-    <nav className="sticky top-24 space-y-1" aria-label="On this page">
+    <nav className="sticky top-28 space-y-1" aria-label="On this page">
       <p className="px-3 pb-2 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-600">
         On this page
       </p>
