@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
+import { APP_VERSION } from "../lib/content";
 
 const LINKS = [
   { href: "/#stacks", label: "Stacks" },
@@ -54,7 +55,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-2.5" aria-label="stackit home">
             <Logo />
             <span className="ml-1 hidden rounded-full border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-zinc-400 sm:inline">
-              v0.1.0
+              v{APP_VERSION}
             </span>
           </Link>
 

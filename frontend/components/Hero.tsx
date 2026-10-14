@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CodeBlock } from "./CodeBlock";
 import { CountUp } from "./CountUp";
 import { Reveal } from "./Reveal";
+import { APP_VERSION } from "../lib/content";
 
 const STATS: { node: React.ReactNode; label: string }[] = [
   { node: <CountUp value={4} />, label: "production stacks" },
@@ -44,7 +45,7 @@ export function Hero() {
           <Reveal>
             <div className="inline-flex items-center gap-2 rounded-full border border-volt-400/25 bg-volt-400/10 px-4 py-1.5 font-mono text-xs text-volt-300 transition-colors hover:border-volt-400/50">
               <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-volt-400" />
-              v0.1.0 — MERN · PERN · Hono · Go Fiber
+              v{APP_VERSION} — MERN · PERN · Hono · Go Fiber
             </div>
           </Reveal>
 
