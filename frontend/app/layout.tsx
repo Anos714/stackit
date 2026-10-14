@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Space_Grotesk({
+  variable: "--f-display",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sans = Inter({
+  variable: "--f-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const mono = JetBrains_Mono({
+  variable: "--f-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable} bg-[#09090b] text-zinc-100`}>
+      <body
+        className={`${display.variable} ${sans.variable} ${mono.variable} bg-[#09090b] text-zinc-100`}
+      >
         <Navbar />
         <main>{children}</main>
         <Footer />

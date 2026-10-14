@@ -1,9 +1,10 @@
 "use client";
 
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Logo } from "./Logo";
 
 const LINKS = [
   { href: "/#stacks", label: "Stacks" },
@@ -32,15 +33,10 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-volt-400 text-black shadow-[0_0_24px_rgba(190,242,100,0.4)]">
-            <Zap className="h-4.5 w-4.5" strokeWidth={2.5} fill="currentColor" />
-          </span>
-          <span className="text-lg font-semibold tracking-tight text-zinc-50">
-            stackit
-            <span className="ml-2 hidden rounded-full border border-white/10 bg-white/5 px-2 py-0.5 align-middle font-mono text-[10px] font-normal text-zinc-400 sm:inline">
-              v0.1.0
-            </span>
+        <Link href="/" className="flex items-center gap-2.5" aria-label="stackit home">
+          <Logo />
+          <span className="ml-1 hidden rounded-full border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] text-zinc-400 sm:inline">
+            v0.1.0
           </span>
         </Link>
 
@@ -49,7 +45,8 @@ export function Navbar() {
             <Link
               key={l.label}
               href={l.href}
-              className={`rounded-lg px-3.5 py-2 text-sm transition-colors ${
+              data-active={pathname === l.href}
+              className={`nav-link rounded-lg px-3.5 py-2 text-sm transition-colors ${
                 pathname === l.href
                   ? "text-volt-300"
                   : "text-zinc-400 hover:bg-white/5 hover:text-zinc-100"
@@ -63,7 +60,7 @@ export function Navbar() {
         <div className="hidden md:block">
           <Link
             href="/docs"
-            className="rounded-lg bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 transition-all hover:bg-volt-400 hover:shadow-[0_0_24px_rgba(190,242,100,0.35)]"
+            className="btn-shine rounded-lg bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 transition-all hover:bg-volt-400 hover:shadow-[0_0_24px_rgba(190,242,100,0.35)]"
           >
             Get started
           </Link>

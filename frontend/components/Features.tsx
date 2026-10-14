@@ -1,6 +1,7 @@
 import { Database, Layers, Package, ShieldCheck, Terminal, Zap } from "lucide-react";
 import { FEATURES } from "../lib/content";
 import { Reveal, SectionHeading } from "./Reveal";
+import { Spotlight } from "./Spotlight";
 
 const ICONS: Record<string, React.ReactNode> = {
   layers: <Layers className="h-5 w-5" />,
@@ -31,16 +32,18 @@ export function Features() {
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
-            <Reveal key={f.title} delay={(i % 3) * 90}>
-              <article className="group h-full rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-volt-400/30 hover:bg-volt-400/[0.04] hover:shadow-[0_0_40px_rgba(190,242,100,0.1)]">
+            <Reveal key={f.title} delay={(i % 3) * 90} className="h-full">
+              <Spotlight className="h-full rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-volt-400/30 hover:bg-volt-400/[0.04] hover:shadow-[0_0_40px_rgba(190,242,100,0.1)]">
+              <article className="group h-full p-6">
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-volt-400/25 bg-volt-400/10 text-volt-300 transition-transform duration-300 group-hover:scale-110">
                   {ICONS[f.icon]}
                 </div>
-                <h3 className="mt-5 text-[17px] font-semibold tracking-tight text-zinc-50">
+                <h3 className="mt-5 font-display text-[17px] font-semibold tracking-[-0.01em] text-zinc-50">
                   {f.title}
                 </h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-zinc-400">{f.body}</p>
               </article>
+              </Spotlight>
             </Reveal>
           ))}
         </div>
