@@ -1,6 +1,6 @@
 {
   "name": "create-stackit-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Opinionated full-stack project scaffolder \u2014 MERN, PERN, Hono + Postgres, Go Fiber",
   "type": "module",
   "license": "MIT",

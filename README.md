@@ -10,6 +10,8 @@ Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit
 bunx create-stackit-app@latest create my-app --stack mern -y
 ```
 
+🌐 **Live site & docs: [stackitcli.vercel.app](https://stackitcli.vercel.app/)**
+
 ```
 cli/        # the stackit CLI (Bun + TypeScript)
 frontend/   # landing page + docs site (Next.js 16 + Tailwind v4)

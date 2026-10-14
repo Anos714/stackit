@@ -9,8 +9,7 @@ best-practice monorepo (Vite + React frontend, layered API backend, Docker for t
 
 ## 🌐 Live demo & docs
 
-<!-- TODO: replace with real Vercel URL after deploy, then publish -->
-**[Live site](https://YOUR-SITE.vercel.app)** — landing page, stack previews
+**[stackitcli.vercel.app](https://stackitcli.vercel.app/)** — landing page, stack previews
 and full documentation.
 
 Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit-app) —
