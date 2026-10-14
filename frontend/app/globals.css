@@ -204,7 +204,39 @@ body {
   transform-origin: center;
 }
 
-/* scroll reveal */
+/* ---- oversized footer brand with hover light ---- */
+.mega-brand {
+  position: relative;
+  display: block;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.015));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: filter 0.5s ease;
+}
+.mega-brand > .mega-lit {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(190, 242, 100, 0.4),
+    rgba(190, 242, 100, 0.04) 85%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.mega-brand:hover {
+  filter: drop-shadow(0 0 44px rgba(190, 242, 100, 0.28));
+}
+.mega-brand:hover > .mega-lit {
+  opacity: 1;
+}
+
+/* ---- scroll reveal ---- */
 .reveal {
   opacity: 0;
   transform: translateY(28px);

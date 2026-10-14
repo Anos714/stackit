@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Sparkles, X } from "lucide-react";
+import { Menu, Sparkles, Star, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -76,7 +76,17 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-2 md:flex">
+            <a
+              href="https://github.com/Anos714/stackit"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Star stackit on GitHub"
+              className="group flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-2 text-sm text-zinc-400 transition-all hover:border-volt-400/40 hover:text-volt-300"
+            >
+              <Star className="h-4 w-4 transition-transform duration-300 group-hover:rotate-[20deg] group-hover:fill-volt-400 group-hover:text-volt-400" />
+              Star
+            </a>
             <Link
               href="/docs"
               className="btn-shine rounded-lg bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 transition-all hover:bg-volt-400 hover:shadow-[0_0_24px_rgba(190,242,100,0.35)]"
@@ -113,6 +123,15 @@ export function Navbar() {
             >
               Get started
             </Link>
+            <a
+              href="https://github.com/Anos714/stackit"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              className="mt-2 flex items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-3 text-center text-[15px] text-zinc-300"
+            >
+              <Star className="h-4 w-4" /> Star on GitHub
+            </a>
           </div>
         )}
       </nav>
