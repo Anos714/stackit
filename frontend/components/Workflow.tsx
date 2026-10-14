@@ -22,7 +22,7 @@ const STEPS = [
 
 export function Workflow() {
   return (
-    <section id="workflow" className="relative scroll-mt-24 border-y border-white/10 bg-white/[0.015] py-20 sm:py-28">
+    <section id="workflow" className="relative scroll-mt-28 border-y border-white/10 bg-white/[0.015] py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           kicker="workflow"

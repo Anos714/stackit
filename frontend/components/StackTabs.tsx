@@ -12,7 +12,7 @@ export function StackTabs() {
   const stack = STACKS.find((s) => s.id === active)!;
 
   return (
-    <section id="stacks" className="relative scroll-mt-24 py-20 sm:py-28">
+    <section id="stacks" className="relative scroll-mt-28 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           kicker="stacks"
@@ -56,9 +56,9 @@ export function StackTabs() {
         <Reveal delay={180}>
           <Spotlight
             key={stack.id}
-            className="mt-6 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors duration-300 hover:border-volt-400/20 sm:p-8 lg:grid-cols-[1.1fr_1fr]"
+            className="mt-6 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-colors duration-300 hover:border-volt-400/20 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
           >
-            <div>
+            <div className="min-w-0">
               <div className="flex flex-wrap gap-2">
                 {stack.highlight.map((h) => (
                   <span
@@ -91,7 +91,7 @@ export function StackTabs() {
               </ul>
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex min-w-0 flex-col gap-4">
               <div>
                 <p className="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-500">
                   <FileCode2 className="h-3.5 w-3.5" /> scaffold it <span className="text-zinc-600">· run from cli/</span>

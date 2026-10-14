@@ -284,7 +284,7 @@ function DocSection({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-28">
+    <section id={id} className="scroll-mt-36">
       <Reveal>
         <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-volt-400">
           <span className="text-zinc-600">$ </span>
