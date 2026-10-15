@@ -122,7 +122,7 @@ bunx create-stackit-app@latest create fast-api --stack go-fiber -y`}
                 One command exists today — <code>create</code>. Flags always win over prompts;
                 invalid combos are rejected instead of generating broken projects.
               </p>
-              <div className="overflow-hidden rounded-xl border border-white/10">
+              <div className="hidden overflow-hidden rounded-xl border border-white/10 sm:block">
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[560px] text-left text-sm">
                     <thead>
@@ -148,6 +148,24 @@ bunx create-stackit-app@latest create fast-api --stack go-fiber -y`}
                     </tbody>
                   </table>
                 </div>
+              </div>
+              {/* mobile: stacked cards */}
+              <div className="space-y-2.5 sm:hidden">
+                {FLAGS.map((f) => (
+                  <div key={f.flag} className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                    <p className="break-all font-mono text-[13px] text-volt-300">{f.flag}</p>
+                    <dl className="mt-2 space-y-1 text-[13px]">
+                      <div className="flex gap-2">
+                        <dt className="w-16 shrink-0 text-zinc-600">values</dt>
+                        <dd className="min-w-0 break-words text-zinc-400">{f.values}</dd>
+                      </div>
+                      <div className="flex gap-2">
+                        <dt className="w-16 shrink-0 text-zinc-600">default</dt>
+                        <dd className="min-w-0 break-words text-zinc-500">{f.def}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                ))}
               </div>
             </DocSection>
 

@@ -74,7 +74,7 @@ export function StackTabs() {
               </h3>
               <p className="mt-2 text-[15px] leading-relaxed text-zinc-400">{stack.tagline}</p>
 
-              <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="mt-6 grid grid-cols-1 gap-3 min-[480px]:grid-cols-3">
                 <Meta icon={<Server className="h-4 w-4" />} label="Backend" value={stack.backend} />
                 <Meta icon={<Database className="h-4 w-4" />} label="Database" value={stack.database} />
                 <Meta icon={<Cpu className="h-4 w-4" />} label="Runtime" value={stack.runtime} />
@@ -82,10 +82,10 @@ export function StackTabs() {
 
               <ul className="mt-6 space-y-2.5">
                 {stack.files.map((f) => (
-                  <li key={f.path} className="flex items-start gap-2.5 text-sm">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-volt-400" />
-                    <span className="font-mono text-[13px] text-zinc-200">{f.path}</span>
-                    <span className="text-zinc-500">— {f.note}</span>
+                  <li key={f.path} className="flex min-w-0 flex-wrap items-baseline gap-x-2.5 gap-y-0.5 text-sm">
+                    <Check className="h-4 w-4 shrink-0 translate-y-[3px] text-volt-400" />
+                    <span className="break-all font-mono text-[13px] text-zinc-200">{f.path}</span>
+                    <span className="break-words text-zinc-500">— {f.note}</span>
                   </li>
                 ))}
               </ul>
