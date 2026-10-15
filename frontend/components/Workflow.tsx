@@ -34,13 +34,13 @@ export function Workflow() {
           body="Three steps. No Yeoman generators to debug, no wiki pages to read, no 'now wire up CORS' left as an exercise."
         />
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-          <ol className="space-y-2">
+        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
+          <ol className="min-w-0 space-y-2">
             {STEPS.map((s, i) => (
               <Reveal key={s.n} delay={i * 100}>
                 <li className="group flex gap-5 rounded-2xl border border-transparent p-5 transition-colors hover:border-white/10 hover:bg-white/[0.02]">
-                  <span className="font-mono text-sm font-semibold text-volt-400">{s.n}</span>
-                  <div>
+                  <span className="shrink-0 font-mono text-sm font-semibold text-volt-400">{s.n}</span>
+                  <div className="min-w-0">
                     <h3 className="text-[17px] font-semibold tracking-tight text-zinc-50">
                       {s.title}
                     </h3>
@@ -51,7 +51,7 @@ export function Workflow() {
             ))}
           </ol>
 
-          <Reveal delay={150}>
+          <Reveal delay={150} className="min-w-0">
             <div className="space-y-4">
               <CodeBlock code={SCAFFOLD_OUTPUT} title="terminal — create my-app" lang="text" />
               <CodeBlock code={DEMO_API} title="client/src/lib/api.ts" lang="ts" />
