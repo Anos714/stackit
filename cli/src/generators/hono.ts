@@ -42,9 +42,9 @@ function appFile(o: ProjectOptions): string {
   return `import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { env } from "./config/env.${e}";
-import { health } from "./routes/health.${e}";
-import { users } from "./routes/users.${e}";
+import { env } from "./config/env.js";
+import { health } from "./routes/health.js";
+import { users } from "./routes/users.js";
 
 export function createApp() {
   const app = new Hono();
@@ -72,9 +72,9 @@ function indexFile(o: ProjectOptions): string {
   const bun = o.runtime === "bun";
   const t = isTS(o);
   if (bun) {
-    return `import { env, assertDbEnv } from "./config/env.${e}";
-import { connectDb } from "./config/db.${e}";
-import { createApp } from "./app.${e}";
+    return `import { env, assertDbEnv } from "./config/env.js";
+import { connectDb } from "./config/db.js";
+import { createApp } from "./app.js";
 
 assertDbEnv();
 await connectDb();
@@ -89,11 +89,11 @@ export default {
 `;
   }
   return `import { serve } from "@hono/node-server";
-import { env, assertDbEnv } from "./config/env.${e}";
-import { connectDb } from "./config/db.${e}";
-import { createApp } from "./app.${e}";
+import { env, assertDbEnv } from "./config/env.js";
+import { connectDb } from "./config/db.js";
+import { createApp } from "./app.js";
 
-async function main(): Promise<void> {
+async function main()${t ? ": Promise<void>" : ""} {
   assertDbEnv();
   await connectDb();
   const app = createApp();
@@ -202,7 +202,7 @@ health.get("/", (c) => c.json({ status: "ok", uptime: process.uptime() }));
       ? `import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { pool } from "../config/db.${e}";
+import { pool } from "../config/db.js";
 
 export const users = new Hono();
 
@@ -235,7 +235,7 @@ users.post("/", zValidator("json", userBody), async (c) => {
       : `import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { pool } from "../config/db.${e}";
+import { pool } from "../config/db.js";
 
 export const users = new Hono();
 

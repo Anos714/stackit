@@ -201,10 +201,10 @@ CREATE TABLE IF NOT EXISTS users (
 
 function usersController(o: ProjectOptions, db: DbKind): string {
   const t = isTS(o);
-  const imp = (s: string) => `import { ${s} } from "../utils/asyncHandler.${ext(o)}";`;
+  const imp = (s: string) => `import { ${s} } from "../utils/asyncHandler.js";`;
   if (db === "mongodb") {
     return `${t ? 'import type { Request, Response } from "express";\n' : ""}${imp("asyncHandler")}
-import { UserModel } from "../models/user.${ext(o)}";
+import { UserModel } from "../models/user.js";
 
 export const listUsers = asyncHandler(async (_req${t ? ": Request" : ""}, res${t ? ": Response" : ""}) => {
   const users = await UserModel.find().sort({ createdAt: -1 }).lean();
@@ -218,18 +218,20 @@ export const createUser = asyncHandler(async (req${t ? ": Request" : ""}, res${t
 `;
   }
   return `${t ? 'import type { Request, Response } from "express";\n' : ""}${imp("asyncHandler")}
-import { pool } from "../config/db.${ext(o)}";
-import { CREATE_USERS_TABLE${t ? ", type User" : ""} } from "../models/user.${ext(o)}";
+import { pool } from "../config/db.js";
+import { CREATE_USERS_TABLE${t ? ", type User" : ""} } from "../models/user.js";
 
-let ready: Promise<unknown> | null = null;
+let ready${t ? ": Promise<unknown> | null" : ""} = null;
 function ensureSchema() {
   return (ready ??= pool.query(CREATE_USERS_TABLE));
 }
 
 export const listUsers = asyncHandler(async (_req${t ? ": Request" : ""}, res${t ? ": Response" : ""}) => {
   await ensureSchema();
-  const { rows } = await pool.query(${t ? "<User>" : ""}"SELECT id, name, email, created_at AS \\"createdAt\\" FROM users ORDER BY id DESC");
-  res.json({ data: rows });
+  // NOTE: no generic on pool.query — @types/pg overloads differ across versions;
+  // casting rows keeps this compiling everywhere.
+  const { rows } = await pool.query('SELECT id, name, email, created_at AS "createdAt" FROM users ORDER BY id DESC');
+  res.json({ data: rows${t ? " as User[]" : ""} });
 });
 
 export const createUser = asyncHandler(async (req${t ? ": Request" : ""}, res${t ? ": Response" : ""}) => {
@@ -238,7 +240,7 @@ export const createUser = asyncHandler(async (req${t ? ": Request" : ""}, res${t
     'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id, name, email, created_at AS "createdAt"',
     [req.body.name, req.body.email],
   );
-  res.status(201).json({ data: rows[0] });
+  res.status(201).json({ data: rows[0]${t ? " as User" : ""} });
 });
 `;
 }
@@ -368,8 +370,8 @@ healthRouter.get("/", (_req, res) => {
 });
 `,
     [`server/src/routes/users.${e}`]: `import { Router } from "express";
-import { createUser, listUsers } from "../controllers/users.${e}";
-import { userSchema, validate } from "../middlewares/validate.${e}";
+import { createUser, listUsers } from "../controllers/users.js";
+import { userSchema, validate } from "../middlewares/validate.js";
 
 export const usersRouter = Router();
 
@@ -384,11 +386,11 @@ function appFile(o: ProjectOptions): string {
   const t = isTS(o);
   return `import express from "express";
 import cors from "cors";
-import { env } from "./config/env.${e}";
-import { healthRouter } from "./routes/health.${e}";
-import { usersRouter } from "./routes/users.${e}";
-import { notFound } from "./middlewares/notFound.${e}";
-import { errorHandler } from "./middlewares/errorHandler.${e}";
+import { env } from "./config/env.js";
+import { healthRouter } from "./routes/health.js";
+import { usersRouter } from "./routes/users.js";
+import { notFound } from "./middlewares/notFound.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 export function createApp() {
   const app = express();
@@ -408,11 +410,11 @@ export function createApp() {
 function indexFile(o: ProjectOptions): string {
   const e = ext(o);
   const t = isTS(o);
-  return `import { createApp } from "./app.${e}";
-import { assertDbEnv, env } from "./config/env.${e}";
-import { connectDb } from "./config/db.${e}";
+  return `import { createApp } from "./app.js";
+import { assertDbEnv, env } from "./config/env.js";
+import { connectDb } from "./config/db.js";
 
-async function main(): Promise<void> {
+async function main()${t ? ": Promise<void>" : ""} {
   assertDbEnv();
   await connectDb();
   const app = createApp();

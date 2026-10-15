@@ -61,6 +61,38 @@ describe("buildFileMap", () => {
     expect(files["server/package.json"]).not.toContain("mongoose");
   });
 
+  test("root scripts avoid npm-only --prefix (work under bun/pnpm/yarn)", () => {
+    for (const pm of ["npm", "pnpm", "yarn", "bun"] as const) {
+      const files = buildFileMap(opts({ packageManager: pm }));
+      const root = JSON.parse(files["package.json"] as string);
+      expect(root.scripts.dev).toContain("cd client");
+      expect(root.scripts.dev).not.toContain("--prefix");
+      expect(root.scripts.build).not.toContain("--prefix");
+    }
+  });
+
+  test("generated TS uses .js import specifiers (never .ts/.tsx)", () => {
+    const files = buildFileMap(opts());
+    for (const [name, content] of Object.entries(files)) {
+      if (!/\.(ts|tsx)$/.test(name)) continue;
+      const bad = (content as string)
+        .split("\n")
+        .filter((l) => /^\s*import .* from ["']\.\.?\//.test(l) && /\.(ts|tsx)["']/.test(l));
+      expect(bad, name).toEqual([]);
+    }
+  });
+
+  test("generated JS contains no TypeScript syntax", () => {
+    const files = buildFileMap(
+      opts({ stack: "pern", language: "javascript", runtime: "node", packageManager: "npm" }),
+    );
+    for (const [name, content] of Object.entries(files)) {
+      if (!name.endsWith(".js") && !name.endsWith(".jsx")) continue;
+      expect(content as string, `${name}: return-type annotation`).not.toMatch(/\)\s*:\s*Promise</);
+      expect(content as string, `${name}: typed declaration`).not.toMatch(/(let|const|function \w+)\s+\w+\s*:\s*[A-Z]/);
+    }
+  });
+
   test("hono-pg uses hono with runtime-specific entry", () => {
     const bunFiles = buildFileMap(opts({ stack: "hono-pg", runtime: "bun" }));
     expect(bunFiles["server/src/index.ts"]).toContain("fetch: app.fetch");
