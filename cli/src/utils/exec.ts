@@ -30,7 +30,10 @@ export function installArgs(pm: string): string[] {
     case "yarn":
       return ["install"];
     case "pnpm":
-      return ["install"];
+      // pnpm v10+ blocks postinstall scripts by default (ERR_PNPM_IGNORED_BUILDS
+      // for esbuild). Our dep set (vite/tsx via esbuild's optional platform
+      // packages) works without them — verified by booting the generated servers.
+      return ["install", "--ignore-scripts"];
     case "bun":
       return ["install"];
     default:

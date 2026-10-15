@@ -18,9 +18,11 @@ export function rootPackageJson(o: ProjectOptions): string {
       private: true,
       type: "module",
       scripts: {
-        dev: `concurrently ${JSON.stringify(`${runScript(pm, "dev")} --prefix client`)} ${JSON.stringify(`${runScript(pm, "dev")} --prefix server`)}`,
-        build: `${runScript(pm, "build")} --prefix client && ${runScript(pm, "build")} --prefix server`,
-        "install:all": `${pm} install --prefix client && ${pm} install --prefix server`,
+        // NOTE: plain `cd … && …` chains — `--prefix` only exists in npm,
+        // these scripts must work identically under npm/pnpm/yarn/bun.
+        dev: `concurrently "cd client && ${runScript(pm, "dev")}" "cd server && ${runScript(pm, "dev")}"`,
+        build: `cd client && ${runScript(pm, "build")} && cd ../server && ${runScript(pm, "build")}`,
+        "install:all": `cd client && ${pm} install && cd ../server && ${pm} install`,
       },
       devDependencies: { concurrently: "^9.1.2" },
     },
@@ -36,9 +38,9 @@ export function goRootPackageJson(o: ProjectOptions): string {
       version: "0.1.0",
       private: true,
       scripts: {
-        "dev:client": "npm run dev --prefix client",
-        dev: "npm run dev --prefix client",
-        build: "npm run build --prefix client",
+        "dev:client": "cd client && npm run dev",
+        dev: "cd client && npm run dev",
+        build: "cd client && npm run build",
       },
     },
     null,
@@ -240,7 +242,7 @@ export function clientMain(o: ProjectOptions): string {
   const c = cext(o);
   return `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App.${c}";
+import App from "./App.jsx";
 import "./index.css";
 
 const root = document.getElementById("root");
@@ -256,7 +258,7 @@ createRoot(root).render(
 export function clientApp(o: ProjectOptions): string {
   const t = isTS(o);
   return `import { useEffect, useState } from "react";
-import { getHealth } from "./lib/api.${ext(o)}";
+import { getHealth } from "./lib/api.js";
 import "./App.css";
 
 export default function App() {
