@@ -12,6 +12,16 @@ bunx create-stackit-app@latest create my-app --stack mern -y
 
 🌐 **Live site & docs: [stackitcli.vercel.app](https://stackitcli.vercel.app/)**
 
+## 🎬 Launch video
+
+60-second demo: site tour plus a real MERN scaffold, `docker compose up`,
+and a live `/api/health → {"status":"ok"}` — everything recorded, nothing mocked.
+
+[![Watch the launch video](launch-video/poster.jpg)](launch-video/stackit-launch-60s-1080p60.mp4)
+
+[stackit-launch-60s-1080p60.mp4](launch-video/stackit-launch-60s-1080p60.mp4)
+· 1920×1080, 60fps, normalized audio.
+
 ```
 cli/        # the stackit CLI (Bun + TypeScript)
 frontend/   # landing page + docs site (Next.js 16 + Tailwind v4)
