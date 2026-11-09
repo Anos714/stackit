@@ -209,3 +209,7 @@ bun run build      # bun build → dist/stackit
 commander (CLI) · @clack/prompts (interactive UI) · zod (validation) ·
 fs-extra (file writes) · yocto-spinner + picocolors (output). Templates are
 plain TypeScript functions — no template engine, no network at scaffold time.
+
+## License
+
+MIT © 2026 Rahul Sain. See [LICENSE](LICENSE).
