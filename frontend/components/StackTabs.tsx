@@ -18,10 +18,10 @@ export function StackTabs() {
           kicker="stacks"
           title={
             <>
-              One CLI. <span className="text-volt-400">Four production stacks.</span>
+              One CLI. <span className="text-volt-400">Six production stacks.</span>
             </>
           }
-          body="Every stack ships a Vite + React frontend and a layered backend with validation, env handling and Docker. Pick a tab to see exactly what you get."
+          body="Every stack ships a Vite + React or Next.js frontend and a layered backend with validation, env handling and Docker. Pick a tab to see exactly what you get."
         />
 
         {/* tabs */}
@@ -101,7 +101,7 @@ export function StackTabs() {
               <div className="flex-1 rounded-xl border border-white/10 bg-black/40 p-4 font-mono text-xs leading-loose text-zinc-500">
                 <p className="text-zinc-600"># then</p>
                 <p>
-                  <span className="text-volt-400">$</span> cd {stack.id === "mern" ? "my-app" : stack.id === "pern" ? "shop-api" : stack.id === "hono-pg" ? "edge-api" : stack.id === "go-fiber" ? "go-api" : "my-api"}
+                  <span className="text-volt-400">$</span> cd {stack.id === "mern" ? "my-app" : stack.id === "pern" ? "shop-api" : stack.id === "hono-pg" ? "edge-api" : stack.id === "go-fiber" ? "go-api" : stack.id === "fastapi" ? "my-api" : "nest-api"}
                 </p>
                 <p>
                   <span className="text-volt-400">$</span> docker compose up -d
@@ -109,7 +109,7 @@ export function StackTabs() {
                 <p>
                   <span className="text-volt-400">$</span> bun run dev
                 </p>
-                <p className="mt-2 text-zinc-600">→ frontend :{stack.id === "fastapi" ? "3000" : "5173"} · api :5000 · health /api/health</p>
+                <p className="mt-2 text-zinc-600">→ frontend :{stack.id === "fastapi" || stack.id === "nestjs" ? "3000" : "5173"} · api :5000 · health /api/health</p>
               </div>
             </div>
           </Spotlight>

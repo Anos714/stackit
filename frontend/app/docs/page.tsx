@@ -116,7 +116,10 @@ bunx create-stackit-app@latest create shop-api --stack pern --language javascrip
 bunx create-stackit-app@latest create go-api --stack go-fiber -y
 
 # FastAPI + Next.js with real auth (language/runtime auto-resolve to python)
-bunx create-stackit-app@latest create my-api --stack fastapi -y`}
+bunx create-stackit-app@latest create my-api --stack fastapi -y
+
+# NestJS + Next.js with real auth (language/runtime auto-resolve to typescript/node)
+bunx create-stackit-app@latest create nest-api --stack nestjs -y`}
             />
           </DocSection>
 
@@ -173,7 +176,7 @@ bunx create-stackit-app@latest create my-api --stack fastapi -y`}
             </DocSection>
 
             <DocSection id="stacks" kicker="stacks" title="Stacks">
-              <p>Five stacks, each a frontend plus a backend with its own database:</p>
+              <p>Six stacks, each a frontend plus a backend with its own database:</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {STACKS.map((s) => (
                   <div
@@ -224,6 +227,7 @@ bunx create-stackit-app@latest create my-api --stack fastapi -y`}
               />
               <p>Go + Fiber instead generates <code>server/cmd/api/main.go</code> plus <code>server/internal/{"{config,db,handlers,middleware,models,routes}"}</code> and a Makefile.</p>
               <p>FastAPI ships a Python API in <code>server/app/</code> (<code>core · db · models · schemas · services · api</code>), Alembic migrations, a pytest suite and a Next.js (App Router) client that signs up, signs in and loads <code>/api/auth/me</code> through a <code>/api</code> rewrite.</p>
+              <p>NestJS ships modules in <code>server/src/</code> (<code>auth · users · health · config · common · database</code>), TypeORM entities with a production migration, a Jest e2e suite on in-memory SQLite, and the same Next.js auth client talking to <code>:5000</code> through the <code>/api</code> rewrite.</p>
             </DocSection>
 
             <DocSection id="run" kicker="run" title="Running it">
@@ -236,7 +240,7 @@ bun run dev                   # (or npm/pnpm/yarn run dev) → client + server`}
               />
               <div className="grid gap-3 sm:grid-cols-3">
                 {[
-                  ["Frontend", "http://localhost:5173 · FastAPI → :3000"],
+                  ["Frontend", "http://localhost:5173 · FastAPI / NestJS → :3000"],
                   ["API", "http://localhost:5000"],
                   ["Health", "http://localhost:5000/api/health"],
                 ].map(([k, v]) => (
@@ -254,7 +258,9 @@ bun run dev                   # (or npm/pnpm/yarn run dev) → client + server`}
                 via <code>make dev</code>. Without <code>DATABASE_URL</code> the API runs in demo
                 mode (in-memory store); set it for real Postgres persistence. FastAPI stacks
                 create their tables on boot in dev — set <code>AUTO_CREATE_TABLES=false</code> and
-                run <code>npm run db:migrate</code> in production. Python deps use{" "}
+                run <code>npm run db:migrate</code> in production. NestJS stacks keep
+                <code>TYPEORM_SYNC=true</code> in dev; set it to <code>false</code> and run{" "}
+                <code>npm run db:migrate</code> in production. Python deps use{" "}
                 <code>uv</code> when it is installed (<code>uv venv server/.venv</code> then{" "}
                 <code>uv pip install --python server/.venv -r server/requirements-dev.txt</code>) and
                 fall back to <code>python -m venv</code> + pip otherwise.
@@ -279,7 +285,7 @@ bun run dev                   # (or npm/pnpm/yarn run dev) → client + server`}
                   The dev proxy points at <code>http://localhost:5000</code>. Make sure the server is
                   running, or set <code>VITE_API_URL</code> in <code>client/.env</code>.
                 </Note>
-                <Note title="Next.js shows “API offline” (FastAPI stack)">
+                <Note title="Next.js shows “API offline” (FastAPI / NestJS stacks)">
                   The rewrite in <code>client/next.config.ts</code> points at{" "}
                   <code>http://localhost:5000</code>. Start the API, or set{" "}
                   <code>API_URL</code> in <code>client/.env</code> and restart{" "}

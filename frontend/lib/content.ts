@@ -1,5 +1,5 @@
 /** Single source of truth — keep in sync with cli/package.json version. */
-export const APP_VERSION = "0.2.0";
+export const APP_VERSION = "0.3.0";
 
 export interface Stack {
   id: string;
@@ -99,6 +99,23 @@ export const STACKS: Stack[] = [
     ],
     highlight: ["real auth", "typed end to end"],
   },
+  {
+    id: "nestjs",
+    label: "NestJS + Next.js",
+    tagline: "Typed Node API with real auth — Nest modules, TypeORM, JWT rotation, done.",
+    backend: "NestJS + TypeORM",
+    database: "PostgreSQL",
+    runtime: "Node 20+",
+    command: "bunx create-stackit-app@latest create nest-api --stack nestjs -y",
+    files: [
+      { path: "server/src/auth/auth.service.ts", note: "argon2 + JWT rotation" },
+      { path: "server/src/auth/jwt-auth.guard.ts", note: "guard-backed /me" },
+      { path: "server/src/users/user.entity.ts", note: "TypeORM entity" },
+      { path: "server/test/app.e2e-spec.ts", note: "Jest e2e on SQLite" },
+      { path: "client/app/page.tsx", note: "working sign-in UI" },
+    ],
+    highlight: ["real auth", "Nest DI"],
+  },
 ];
 
 export interface Feature {
@@ -148,7 +165,7 @@ export interface Faq {
 export const FAQS: Faq[] = [
   {
     q: "How is this different from create-next-app or degit templates?",
-    a: "Those give you one frontend. stackit scaffolds the whole full-stack repo — a Vite + React or Next.js client, a layered API backend, database wiring, Docker and env files — across 5 backend stacks, 3 languages and 3 runtimes, from one CLI.",
+    a: "Those give you one frontend. stackit scaffolds the whole full-stack repo — a Vite + React or Next.js client, a layered API backend, database wiring, Docker and env files — across 6 backend stacks, 3 languages and 3 runtimes, from one CLI.",
   },
   {
     q: "Do I need Bun installed?",
@@ -180,9 +197,9 @@ export interface Flag {
 
 export const FLAGS: Flag[] = [
   { flag: "[project-name]", values: "my-app (lowercase, - _)", def: "prompt" },
-  { flag: "--stack", values: "mern | pern | hono-pg | go-fiber | fastapi", def: "prompt (mern with -y)" },
-  { flag: "--language", values: "typescript | javascript (go-fiber → go, fastapi → python)", def: "prompt (typescript with -y)" },
-  { flag: "--runtime", values: "node | bun (go-fiber → go, fastapi → python)", def: "prompt (stack default with -y)" },
+  { flag: "--stack", values: "mern | pern | hono-pg | go-fiber | fastapi | nestjs", def: "prompt (mern with -y)" },
+  { flag: "--language", values: "typescript | javascript (go-fiber → go, fastapi → python, nestjs → typescript)", def: "prompt (typescript with -y)" },
+  { flag: "--runtime", values: "node | bun (go-fiber → go, fastapi → python, nestjs → node)", def: "prompt (stack default with -y)" },
   { flag: "--pm", values: "npm | pnpm | yarn | bun", def: "bun if runtime is bun, else npm" },
   { flag: "-y, --yes", values: "skip all prompts", def: "off" },
   { flag: "--no-install", values: "skip dependency install", def: "install" },

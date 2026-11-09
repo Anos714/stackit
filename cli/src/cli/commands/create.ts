@@ -10,7 +10,7 @@ import type { ProjectOptions } from "../../types/index.ts";
 
 export const createCommand = new Command("create")
   .argument("[project-name]", "name of the project directory to create")
-  .option("--stack <stack>", "stack: mern | pern | hono-pg | go-fiber | fastapi")
+  .option("--stack <stack>", "stack: mern | pern | hono-pg | go-fiber | fastapi | nestjs")
   .option("--language <lang>", "language: typescript | javascript (go stacks use go)")
   .option("--runtime <runtime>", "runtime: node | bun (go-fiber uses go)")
   .option("--pm <pm>", "package manager: npm | pnpm | yarn | bun")

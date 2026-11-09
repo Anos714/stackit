@@ -1,7 +1,7 @@
 {
   "name": "create-stackit-app",
-  "version": "0.2.0",
-  "description": "Opinionated full-stack project scaffolder — MERN, PERN, Hono + Postgres, Go Fiber, FastAPI",
+  "version": "0.3.0",
+  "description": "Opinionated full-stack project scaffolder — MERN, PERN, Hono + Postgres, Go Fiber, FastAPI, NestJS",
   "type": "module",
   "license": "MIT",
   "bin": {

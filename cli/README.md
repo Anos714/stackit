@@ -4,7 +4,8 @@
 [![license](https://img.shields.io/npm/l/create-stackit-app.svg)](https://www.npmjs.com/package/create-stackit-app)
 
 Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick the
-whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + Next.js** — and get a
+whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + Next.js,
+NestJS + Next.js** — and get a
 best-practice monorepo (Vite + React or Next.js frontend, layered API backend, Docker for the DB).
 
 ## 🌐 Live demo & docs
@@ -42,6 +43,7 @@ bun run src/index.ts create my-app
   - `mern` / `pern` / `hono-pg` → Node >= 20 and/or Bun >= 1.2
   - `go-fiber` → Go >= 1.24 (+ Node >= 20 for the Vite frontend)
   - `fastapi` → Python >= 3.11 (+ Node >= 20 for the Next.js frontend); deps install with `uv` when present, otherwise venv + pip
+  - `nestjs` → Node >= 20 (+ npm/pnpm/yarn/bun); TypeScript only, Node runtime only
 
 ## Running the CLI (run / develop)
 
@@ -64,10 +66,10 @@ bun run src/index.ts create shop-api --stack pern --language javascript --runtim
 | Flag | Values | Default |
 | ---- | ------ | ------- |
 | `[project-name]` | `my-app` (lowercase, `-_`) | prompt |
-| `--stack` | `mern` \| `pern` \| `hono-pg` \| `go-fiber` \| `fastapi` | prompt (`mern` with `-y`) |
-| `--language` | `typescript` \| `javascript` (`go-fiber` → `go`, `fastapi` → `python` auto) | prompt (`typescript` with `-y`) |
-| `--runtime` | `node` \| `bun` (`go-fiber` → `go`, `fastapi` → `python` auto) | prompt (stack default with `-y`) |
-| `--pm` | `npm` \| `pnpm` \| `yarn` \| `bun` (`fastapi`: client pm) | prompt (`bun` if runtime is bun, else `npm`) |
+| `--stack` | `mern` \| `pern` \| `hono-pg` \| `go-fiber` \| `fastapi` \| `nestjs` | prompt (`mern` with `-y`) |
+| `--language` | `typescript` \| `javascript` (`go-fiber` → `go`, `fastapi` → `python`, `nestjs` → `typescript` auto) | prompt (`typescript` with `-y`) |
+| `--runtime` | `node` \| `bun` (`go-fiber` → `go`, `fastapi` → `python`, `nestjs` → `node` auto) | prompt (stack default with `-y`) |
+| `--pm` | `npm` \| `pnpm` \| `yarn` \| `bun` (`fastapi`/`nestjs`: client pm) | prompt (`bun` if runtime is bun, else `npm`) |
 | `-y, --yes` | skip all prompts | off |
 | `--no-install` | skip dependency install | install |
 | `--no-git` | skip `git init` | init |
@@ -83,7 +85,7 @@ bun run dev                   # runs client + server (or npm/pnpm/yarn run dev)
 
 | Service | URL |
 | ------- | --- |
-| Frontend | http://localhost:5173 |
+| Frontend | http://localhost:5173 (FastAPI / NestJS → :3000) |
 | API | http://localhost:5000 |
 | Health | http://localhost:5000/api/health |
 
@@ -157,12 +159,47 @@ bunx create-stackit-app@latest create my-api --stack fastapi -y
 cd my-api && docker compose up -d && npm run dev
 ```
 
+### Layout (nestjs)
+
+```
+nest-api/
+├── client/                    # Next.js App Router, auth UI (rewrites /api → :5000)
+│   ├── app/{layout,page}.tsx
+│   ├── app/globals.css
+│   ├── lib/api.ts
+│   └── next.config.ts
+├── server/                    # NestJS + TypeORM + Postgres
+│   ├── src/
+│   │   ├── main.ts            # bootstrap, CORS, validation, { detail } errors
+│   │   ├── app.module.ts      # ConfigModule + TypeOrmModule
+│   │   ├── config/env.ts      # zod-validated environment
+│   │   ├── auth/              # controller, service, JWT guard, DTOs
+│   │   ├── users/             # entity, response mapper, protected controller
+│   │   ├── health/            # /api/health + /api/health/ready
+│   │   ├── common/            # exception filter + CurrentUser decorator
+│   │   └── database/          # data source + 1730000000000-InitialSchema
+│   ├── test/app.e2e-spec.ts   # Jest e2e on in-memory SQLite
+│   └── nest-cli.json
+├── docker-compose.yml
+└── .env.example
+```
+
+Ships **real auth**: signup, login, refresh (rotated + revoked), logout and a
+protected `/api/auth/me` using the same Next.js client as the FastAPI stack.
+`npm run test` (Jest e2e) and `npm run lint` (ESLint + strict `tsc`) work out of
+the box; `npm run db:migrate` runs the TypeORM migration.
+
+```bash
+bunx create-stackit-app@latest create nest-api --stack nestjs -y
+cd nest-api && cp .env.example server/.env && docker compose up -d && npm run dev
+```
+
 ## Scripts (this repo)
 
 ```bash
 bun install        # deps
 bun run src/index.ts --help
-bun test           # 19 tests: semver, registry, scaffold file-maps (incl. fastapi)
+bun test           # 21 tests: semver, registry, scaffold file-maps (incl. fastapi, nestjs)
 bunx tsc --noEmit  # typecheck
 bun run build      # bun build → dist/stackit
 ```

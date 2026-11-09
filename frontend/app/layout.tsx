@@ -7,7 +7,7 @@ import "./globals.css";
 
 const SITE_URL = "https://stackitcli.vercel.app";
 const SITE_NAME = "stackit";
-const TAGLINE = "Scaffold full-stack apps in one command — MERN, PERN, Hono + Postgres, Go + Fiber, FastAPI.";
+const TAGLINE = "Scaffold full-stack apps in one command — MERN, PERN, Hono + Postgres, Go + Fiber, FastAPI, NestJS + Next.js.";
 
 const display = Space_Grotesk({
   variable: "--f-display",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: "%s — stackit",
   },
   description:
-    "Opinionated full-stack scaffolder. MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI — best-practice monorepos with validation, auth, Docker and docs.",
+    "Opinionated full-stack scaffolder. MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI, NestJS + Next.js — best-practice monorepos with validation, auth, Docker and docs.",
   keywords: [
     "scaffolder",
     "mern",
@@ -42,6 +42,9 @@ export const metadata: Metadata = {
     "hono",
     "go fiber",
     "fastapi",
+    "nestjs",
+    "nestjs + nextjs",
+    "nestjs + next.js",
     "python",
     "cli",
     "bun",
