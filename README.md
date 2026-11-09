@@ -1,8 +1,8 @@
 # stackit ⚡
 
 Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick the
-whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + Next.js** — and get a
-best-practice monorepo in one command.
+whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + Next.js,
+NestJS + Next.js** — and get a best-practice monorepo in one command.
 
 Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit-app):
 
@@ -19,14 +19,16 @@ bunx create-stackit-app@latest create my-app --stack mern -y
 | `hono-pg` | Vite + React | Hono | PostgreSQL |
 | `go-fiber` | Vite + React | Go Fiber | Postgres-ready |
 | `fastapi` | Next.js (App Router) | FastAPI + SQLAlchemy 2 | PostgreSQL |
+| `nestjs` | Next.js (App Router) | NestJS + TypeORM | PostgreSQL |
 
-`fastapi` is the deepest template: argon2 hashing, JWT access + refresh tokens
-(rotated and revoked), a protected `/api/auth/me`, Alembic migrations, pytest,
-ruff, mypy strict — and a Next.js client that can actually sign up and sign in.
+`fastapi` and `nestjs` are the deepest templates: argon2 hashing, JWT access +
+refresh tokens (rotated and revoked), a protected `/api/auth/me`, migrations,
+tests and lint — and a shared Next.js client that can actually sign up and sign in.
 Python deps install with `uv` when it is on PATH, falling back to `venv` + `pip`.
 
 ```bash
 bunx create-stackit-app@latest create my-api --stack fastapi -y
+bunx create-stackit-app@latest create nest-api --stack nestjs -y
 ```
 
 🌐 **Live site & docs: [stackitcli.vercel.app](https://stackitcli.vercel.app/)**
@@ -68,7 +70,7 @@ bun run dev    # http://localhost:3000  ( / + /docs )
 
 | Where | Command | What |
 | ----- | ------- | ---- |
-| `cli/` | `bun test` | 19 tests: semver, registry, scaffold file-maps (incl. fastapi) |
+| `cli/` | `bun test` | 21 tests: semver, registry, scaffold file-maps (incl. fastapi, nestjs) |
 | `cli/` | `bunx tsc --noEmit` | typecheck |
 | `cli/` | `bun run build` | compile to `cli/dist/stackit` |
 | `frontend/` | `bun run dev` / `bun run build` | site dev / production build |

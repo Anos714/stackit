@@ -6,6 +6,7 @@ const ITEMS = [
   "Hono + Postgres",
   "Go + Fiber",
   "FastAPI",
+  "NestJS",
   "Bun-first",
   "TypeScript",
   "Vite + React",

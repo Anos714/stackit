@@ -29,6 +29,18 @@ export function nextSteps(targetDir: string, pm: string, install: boolean, stack
     return;
   }
 
+  if (stack === "nestjs") {
+    console.log(`  ${pc.dim("$")} ${pc.bold("cp .env.example server/.env")}`);
+    console.log(`  ${pc.dim("$")} ${pc.bold("docker compose up -d")}  ${pc.dim("# Postgres on :5432")}`);
+    if (!install) {
+      const cmd = pm === "npm" ? "npm install" : `${pm} install`;
+      console.log(`  ${pc.dim("$")} ${pc.bold(cmd)}  ${pc.dim("# root (concurrently)")}`);
+      console.log(`  ${pc.dim("$")} ${pc.bold(`cd client && ${cmd} && cd ../server && ${cmd} && cd ..`)}`);
+    }
+    console.log(`  ${pc.dim("$")} ${pc.bold(`${pm} run dev`)}  ${pc.dim("# NestJS :5000 + Next.js :3000")}`);
+    return;
+  }
+
   if (!install) {
     const cmd = pm === "npm" ? "npm install" : `${pm} install`;
     console.log(`  ${pc.dim("$")} ${pc.bold(cmd)}`);

@@ -85,6 +85,21 @@ export const STACKS: Record<StackId, StackDef> = {
       { tool: "node", minVersion: "20.0.0", hint: "https://nodejs.org — needed for the Next.js frontend" },
     ],
   },
+  nestjs: {
+    id: "nestjs",
+    label: "NestJS + Next.js",
+    description: "Next.js (App Router) + NestJS + TypeORM + Postgres, with real auth",
+    frontend: "nextjs",
+    backend: "nestjs",
+    database: "postgres",
+    languages: ["typescript"] as const,
+    runtimes: ["node"] as const,
+    packageManagers: ALL_PM,
+    defaultRuntime: "node",
+    requirements: [
+      { tool: "node", minVersion: "20.0.0", hint: "https://nodejs.org — LTS >= 20 (22 recommended)" },
+    ],
+  },
 } as const;
 
 export const STACK_IDS = Object.keys(STACKS) as StackId[];

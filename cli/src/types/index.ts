@@ -1,4 +1,4 @@
-export type StackId = "mern" | "pern" | "hono-pg" | "go-fiber" | "fastapi";
+export type StackId = "mern" | "pern" | "hono-pg" | "go-fiber" | "fastapi" | "nestjs";
 
 export type Language = "typescript" | "javascript" | "go" | "python";
 
@@ -28,7 +28,7 @@ export interface StackDef {
   label: string;
   description: string;
   frontend: "vite-react" | "nextjs";
-  backend: "express" | "hono" | "fiber" | "fastapi";
+  backend: "express" | "hono" | "fiber" | "fastapi" | "nestjs";
   database: "mongodb" | "postgres" | "none";
   languages: readonly Language[];
   runtimes: readonly Runtime[];

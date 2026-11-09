@@ -18,8 +18,8 @@ function opts(over: Partial<ProjectOptions> = {}): ProjectOptions {
 }
 
 describe("stack registry", () => {
-  test("ships five stacks", () => {
-    expect(STACK_IDS).toEqual(["mern", "pern", "hono-pg", "go-fiber", "fastapi"]);
+  test("ships six stacks", () => {
+    expect(STACK_IDS).toEqual(["mern", "pern", "hono-pg", "go-fiber", "fastapi", "nestjs"]);
   });
 
   test("go-fiber only supports go", () => {
@@ -27,6 +27,17 @@ describe("stack registry", () => {
     expect(isSupportedCombo("go-fiber", "go", "go")).toBe(true);
     expect(isSupportedCombo("mern", "go", "go")).toBe(false);
     expect(isSupportedCombo("mern", "typescript", "bun")).toBe(true);
+  });
+
+  test("nestjs is typescript on node and still lets you pick a pm", () => {
+    const def = getStack("nestjs");
+    expect(def.label).toBe("NestJS + Next.js");
+    expect(def.frontend).toBe("nextjs");
+    expect(def.languages).toEqual(["typescript"]);
+    expect(def.runtimes).toEqual(["node"]);
+    expect(def.packageManagers).toEqual(["npm", "pnpm", "yarn", "bun"]);
+    expect(isSupportedCombo("nestjs", "typescript", "node")).toBe(true);
+    expect(isSupportedCombo("nestjs", "javascript", "node")).toBe(false);
   });
 
   test("fastapi is python for the server and lets you pick a client pm", () => {
@@ -178,6 +189,64 @@ describe("buildFileMap", () => {
     expect(files[".gitignore"]).toContain(".venv/");
     expect(files[".gitignore"]).toContain(".next/");
     expect(files["server/.env.example"]).toContain("postgresql+asyncpg");
+  });
+
+  test("nestjs emits layered modules, migration, e2e and the shared Next.js client", () => {
+    const files = buildFileMap(opts({ stack: "nestjs", language: "typescript", runtime: "node" }));
+    const keys = Object.keys(files);
+    for (const f of [
+      "server/src/main.ts",
+      "server/src/app.module.ts",
+      "server/src/config/env.ts",
+      "server/src/common/http-exception.filter.ts",
+      "server/src/users/user.entity.ts",
+      "server/src/users/users.controller.ts",
+      "server/src/users/users.service.ts",
+      "server/src/users/users.module.ts",
+      "server/src/auth/auth.controller.ts",
+      "server/src/auth/auth.service.ts",
+      "server/src/auth/auth.module.ts",
+      "server/src/auth/jwt-auth.guard.ts",
+      "server/src/auth/refresh-token.entity.ts",
+      "server/src/auth/dto/auth.dto.ts",
+      "server/src/health/health.controller.ts",
+      "server/src/database/data-source.ts",
+      "server/src/database/migrations/1730000000000-InitialSchema.ts",
+      "server/test/app.e2e-spec.ts",
+      "server/nest-cli.json",
+      "server/tsconfig.build.json",
+      "client/app/layout.tsx",
+      "client/app/page.tsx",
+      "client/lib/api.ts",
+      "client/next.config.ts",
+      "client/package.json",
+      "docker-compose.yml",
+    ]) {
+      expect(keys).toContain(f);
+    }
+
+    expect(keys).not.toContain("client/src/App.tsx");
+    expect(keys).not.toContain("client/vite.config.ts");
+
+    expect(files["server/package.json"]).toContain("@nestjs/core");
+    expect(files["server/package.json"]).toContain("@nestjs/typeorm");
+    expect(files["server/package.json"]).toContain("argon2");
+    expect(files["server/package.json"]).not.toContain("mongoose");
+    expect(files["server/src/auth/auth.controller.ts"]).toContain('@Post("refresh")');
+    expect(files["server/src/auth/auth.service.ts"]).toContain("argon2.hash");
+    expect(files["server/src/auth/auth.service.ts"]).toContain("revoked = true");
+    expect(files["server/src/users/user-response.ts"]).toContain("full_name");
+    expect(files["server/test/app.e2e-spec.ts"]).toContain("better-sqlite3");
+    expect(files["server/test/app.e2e-spec.ts"]).toContain("/api/auth/refresh");
+    expect(files["client/package.json"]).toContain('"next": "16.4.5"');
+    expect(files["client/next.config.ts"]).toContain("/api/:path*");
+    expect(files["package.json"]).toContain("cd server");
+    expect(files["package.json"]).toContain("cd client");
+    expect(files[".gitignore"]).toContain(".next/");
+    expect(files[".gitignore"]).toContain("dist/");
+    expect(files["server/.env.example"]).toContain("DATABASE_URL");
+    expect(files["server/.env.example"]).toContain("JWT_SECRET");
+    expect(files["README.md"]).toContain("NestJS");
   });
 
   test("every template file is non-empty", () => {

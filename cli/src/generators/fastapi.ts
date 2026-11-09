@@ -1015,7 +1015,7 @@ const CLIENT_TSCONFIG = `{
 
 const CLIENT_NEXT_CONFIG = `import type { NextConfig } from "next";
 
-// The browser calls the same origin; Next.js proxies /api/* to FastAPI.
+// The browser calls the same origin; Next.js proxies /api/* to the backend API.
 // Override API_URL when the API is not on localhost:5000.
 const API_URL = process.env.API_URL ?? "http://localhost:5000";
 
@@ -1043,7 +1043,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "__PROJECT_NAME__",
-  description: "Next.js client for a FastAPI + Postgres API with real auth.",
+  description: "Next.js client for a Postgres API with real auth.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -1383,8 +1383,8 @@ export default function Home() {
           </form>
 
           <p className="hint">
-            Passwords are hashed with argon2. The API is FastAPI, the DB is Postgres via
-            SQLAlchemy 2.
+            Passwords are hashed with argon2. Access and refresh tokens are stored so they can
+            be rotated and revoked.
           </p>
         </section>
       )}
@@ -1643,7 +1643,7 @@ body {
 `;
 
 const CLIENT_ENV_EXAMPLE = `# The Next.js server proxies /api/* to the API (default http://localhost:5000).
-# Change this if your FastAPI server runs elsewhere.
+# Change this if your API runs elsewhere.
 API_URL=http://localhost:5000
 
 # Optional: call the API directly from the browser instead of through the proxy.
@@ -1798,7 +1798,7 @@ export function fastapiFiles(o: ProjectOptions): FileMap {
 }
 
 /** Next.js (App Router) client with a working sign-in / sign-up / profile flow. */
-export function fastapiClientFiles(o: ProjectOptions): FileMap {
+export function nextClientFiles(o: ProjectOptions): FileMap {
   const sub = (s: string) => s.replaceAll("__PROJECT_NAME__", o.projectName);
 
   return {
@@ -1813,6 +1813,9 @@ export function fastapiClientFiles(o: ProjectOptions): FileMap {
     "client/.env.example": CLIENT_ENV_EXAMPLE,
   };
 }
+
+/** Alias kept for the FastAPI generator (both stacks share the same Next.js app). */
+export const fastapiClientFiles = nextClientFiles;
 
 export function fastapiReadme(o: ProjectOptions): string {
   const pm = o.packageManager;

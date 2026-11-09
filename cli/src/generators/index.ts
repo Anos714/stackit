@@ -16,13 +16,14 @@ import {
 import { expressFiles } from "./express.ts";
 import {
   FASTAPI_GITIGNORE_EXTRA,
-  fastapiClientFiles,
   fastapiFiles,
   fastapiReadme,
   fastapiRootPackageJson,
+  nextClientFiles,
 } from "./fastapi.ts";
 import { goFiberFiles } from "./gofiber.ts";
 import { honoFiles } from "./hono.ts";
+import { NESTJS_GITIGNORE_EXTRA, nestjsFiles, nestjsReadme, nestjsRootPackageJson } from "./nestjs.ts";
 
 export interface GenerateResult {
   targetDir: string;
@@ -55,7 +56,19 @@ export function buildFileMap(o: ProjectOptions): FileMap {
       [`.gitignore`]: ROOT_GITIGNORE + "\n" + FASTAPI_GITIGNORE_EXTRA,
       [`README.md`]: fastapiReadme(o),
       [`.env.example`]: server[`server/.env.example`] as string,
-      ...fastapiClientFiles(o),
+      ...nextClientFiles(o),
+      ...server,
+    };
+  }
+
+  if (o.stack === "nestjs") {
+    const server = nestjsFiles(o);
+    return {
+      [`package.json`]: nestjsRootPackageJson(o),
+      [`.gitignore`]: ROOT_GITIGNORE + "\n" + NESTJS_GITIGNORE_EXTRA,
+      [`README.md`]: nestjsReadme(o),
+      [`.env.example`]: server[`server/.env.example`] as string,
+      ...nextClientFiles(o),
       ...server,
     };
   }
@@ -105,6 +118,9 @@ async function installDeps(o: ProjectOptions, dir: string): Promise<void> {
     if (clientInstall.code !== 0) throw new Error(`${pm} install failed in client/`);
     return;
   }
+
+  // Node stacks (including nestjs): root, then the Next.js client, then the server.
+
 
   const pm = o.packageManager;
   for (const sub of ["", "client", "server"]) {
