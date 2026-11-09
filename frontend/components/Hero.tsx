@@ -42,17 +42,8 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <Reveal>
-            <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-volt-400/25 bg-volt-400/10 px-4 py-1.5 font-mono text-[11px] text-volt-300 transition-colors hover:border-volt-400/50 sm:text-xs">
-              <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-volt-400" />
-              <span className="min-w-0 text-center">
-                MERN · PERN · Hono · Go Fiber · FastAPI · NestJS
-              </span>
-            </div>
-          </Reveal>
-
           <Reveal delay={90}>
-            <h1 className="mt-7 font-display text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.02em] text-zinc-50 sm:text-7xl">
+            <h1 className="font-display text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.02em] text-zinc-50 sm:text-7xl">
               Full-stack apps,
               <br />
               <span className="text-glow text-volt-400">scaffolded right.</span>
