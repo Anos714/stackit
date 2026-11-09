@@ -17,13 +17,15 @@ export function nextSteps(targetDir: string, pm: string, install: boolean, stack
   if (stack === "fastapi") {
     console.log(`  ${pc.dim("$")} ${pc.bold("docker compose up -d")}  ${pc.dim("# Postgres on :5432")}`);
     if (!install) {
-      console.log(`  ${pc.dim("$")} ${pc.bold("python -m venv server/.venv")}`);
       console.log(
-        `  ${pc.dim("$")} ${pc.bold("server/.venv/bin/pip install -r server/requirements-dev.txt")}`,
+        `  ${pc.dim("$")} ${pc.bold("uv venv server/.venv && uv pip install --python server/.venv -r server/requirements-dev.txt")}`,
+      );
+      console.log(
+        `  ${pc.dim("# no uv?")} python -m venv server/.venv && server/.venv/bin/pip install -r server/requirements-dev.txt`,
       );
       console.log(`  ${pc.dim("$")} ${pc.bold(`cd client && ${pm} install && cd ..`)}`);
     }
-    console.log(`  ${pc.dim("$")} ${pc.bold(`${pm} run dev`)}  ${pc.dim("# API :5000 + client :5173")}`);
+    console.log(`  ${pc.dim("$")} ${pc.bold(`${pm} run dev`)}  ${pc.dim("# API :5000 + Next.js :3000")}`);
     return;
   }
 

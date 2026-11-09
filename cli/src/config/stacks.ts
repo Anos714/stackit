@@ -71,9 +71,9 @@ export const STACKS: Record<StackId, StackDef> = {
   },
   fastapi: {
     id: "fastapi",
-    label: "FastAPI + React",
-    description: "React (Vite) + FastAPI + SQLAlchemy 2 + Postgres, with real auth",
-    frontend: "vite-react",
+    label: "FastAPI + Next.js",
+    description: "Next.js (App Router) + FastAPI + SQLAlchemy 2 + Postgres, with real auth",
+    frontend: "nextjs",
     backend: "fastapi",
     database: "postgres",
     languages: ["python"] as const,
@@ -82,7 +82,7 @@ export const STACKS: Record<StackId, StackDef> = {
     defaultRuntime: "python",
     requirements: [
       { tool: "python", minVersion: "3.11.0", hint: "https://python.org — >= 3.11 (3.12 recommended)" },
-      { tool: "node", minVersion: "20.0.0", hint: "https://nodejs.org — needed for the Vite frontend" },
+      { tool: "node", minVersion: "20.0.0", hint: "https://nodejs.org — needed for the Next.js frontend" },
     ],
   },
 } as const;

@@ -4,8 +4,8 @@
 [![license](https://img.shields.io/npm/l/create-stackit-app.svg)](https://www.npmjs.com/package/create-stackit-app)
 
 Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick the
-whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + React** — and get a
-best-practice monorepo (Vite + React frontend, layered API backend, Docker for the DB).
+whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + Next.js** — and get a
+best-practice monorepo (Vite + React or Next.js frontend, layered API backend, Docker for the DB).
 
 ## 🌐 Live demo & docs
 
@@ -41,7 +41,7 @@ bun run src/index.ts create my-app
 - Per stack, the CLI checks your machine and fails fast with a helpful hint:
   - `mern` / `pern` / `hono-pg` → Node >= 20 and/or Bun >= 1.2
   - `go-fiber` → Go >= 1.24 (+ Node >= 20 for the Vite frontend)
-  - `fastapi` → Python >= 3.11 (+ Node >= 20 for the Vite frontend)
+  - `fastapi` → Python >= 3.11 (+ Node >= 20 for the Next.js frontend); deps install with `uv` when present, otherwise venv + pip
 
 ## Running the CLI (run / develop)
 
@@ -124,8 +124,11 @@ set it (docker compose gives you Postgres) → real persistence via `pgx`.
 
 ```
 my-app/
-├── client/                    # Vite + React + TS, auth UI (proxies /api → :5000)
-│   └── src/{App.tsx, lib/api.ts}
+├── client/                    # Next.js App Router, auth UI (rewrites /api → :5000)
+│   ├── app/{layout,page}.tsx
+│   ├── app/globals.css
+│   ├── lib/api.ts
+│   └── next.config.ts
 ├── server/                    # FastAPI + SQLAlchemy 2 async + Alembic
 │   ├── app/
 │   │   ├── main.py            # app factory, CORS, error handlers
@@ -144,9 +147,10 @@ my-app/
 ```
 
 Ships **real auth**: signup, login, refresh (rotated + revoked), logout and a
-protected `/api/auth/me`. The client signs up, signs in and renders `/me` — no
-TODO screens. `npm run test` and `npm run lint` (ruff + mypy strict) work out of
-the box.
+protected `/api/auth/me`. The Next.js client signs up, signs in and renders
+`/me` — no TODO screens. `npm run test` and `npm run lint` (ruff + mypy strict)
+work out of the box. Python deps use `uv` when installed (fast), with a plain
+`venv` + `pip` fallback.
 
 ```bash
 bunx create-stackit-app@latest create my-api --stack fastapi -y

@@ -109,7 +109,7 @@ export function StackTabs() {
                 <p>
                   <span className="text-volt-400">$</span> bun run dev
                 </p>
-                <p className="mt-2 text-zinc-600">→ frontend :5173 · api :5000 · health /api/health</p>
+                <p className="mt-2 text-zinc-600">→ frontend :{stack.id === "fastapi" ? "3000" : "5173"} · api :5000 · health /api/health</p>
               </div>
             </div>
           </Spotlight>

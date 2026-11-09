@@ -9,6 +9,7 @@ const ITEMS = [
   "Bun-first",
   "TypeScript",
   "Vite + React",
+  "Next.js",
   "MongoDB",
   "PostgreSQL",
   "Docker",
