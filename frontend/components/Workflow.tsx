@@ -16,7 +16,7 @@ const STEPS = [
   {
     n: "03",
     title: "Code, install, git — done",
-    body: "33 best-practice files, dependencies installed, repo initialized. cd in and run dev. That's the whole workflow.",
+    body: "Up to 43 best-practice files, dependencies installed, repo initialized. cd in and run dev. That's the whole workflow.",
   },
 ];
 

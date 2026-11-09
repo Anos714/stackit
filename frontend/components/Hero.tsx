@@ -2,12 +2,13 @@ import { ArrowRight, BookOpen, Terminal } from "lucide-react";
 import Link from "next/link";
 import { CodeBlock } from "./CodeBlock";
 import { CountUp } from "./CountUp";
+import { HeroCommand } from "./HeroCommand";
 import { Reveal } from "./Reveal";
 import { APP_VERSION } from "../lib/content";
 
 const STATS: { node: React.ReactNode; label: string }[] = [
-  { node: <CountUp value={4} />, label: "production stacks" },
-  { node: <CountUp value={33} />, label: "files per scaffold" },
+  { node: <CountUp value={6} />, label: "production stacks" },
+  { node: <CountUp value={43} />, label: "files per scaffold" },
   { node: <>30s</>, label: "idea → running app" },
   { node: <CountUp value={0} />, label: "config to write" },
 ];
@@ -43,9 +44,11 @@ export function Hero() {
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-volt-400/25 bg-volt-400/10 px-4 py-1.5 font-mono text-xs text-volt-300 transition-colors hover:border-volt-400/50">
+            <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-volt-400/25 bg-volt-400/10 px-4 py-1.5 font-mono text-[11px] text-volt-300 transition-colors hover:border-volt-400/50 sm:text-xs">
               <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-volt-400" />
-              v{APP_VERSION} — MERN · PERN · Hono · Go Fiber
+              <span className="min-w-0 text-center">
+                v{APP_VERSION} — MERN · PERN · Hono · Go Fiber · FastAPI · NestJS
+              </span>
             </div>
           </Reveal>
 
@@ -60,12 +63,16 @@ export function Hero() {
           <Reveal delay={180}>
             <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-zinc-400 sm:text-lg">
               stackit is the <span className="font-medium text-zinc-200">create-next-app for backends</span> —
-              pick MERN, PERN, Hono or Go Fiber and get a best-practice monorepo with layered APIs,
-              validation, Docker and docs. In one command.
+              pick MERN, PERN, Hono, Go Fiber, FastAPI or NestJS and get a best-practice monorepo
+              with layered APIs, validation, Docker and docs. In one command.
             </p>
           </Reveal>
 
-          <Reveal delay={260}>
+          <Reveal delay={300}>
+            <HeroCommand />
+          </Reveal>
+
+          <Reveal delay={360}>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/docs"
@@ -87,7 +94,7 @@ export function Hero() {
         </div>
 
         {/* terminal */}
-        <Reveal delay={340} className="mx-auto mt-14 max-w-2xl">
+        <Reveal delay={420} className="mx-auto mt-14 max-w-2xl">
           <div className="animate-float">
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0c0c0e]/90 shadow-[0_0_80px_rgba(190,242,100,0.12),0_32px_64px_rgba(0,0,0,0.6)] backdrop-blur transition-colors duration-500 hover:border-volt-400/25">
               <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
@@ -101,11 +108,11 @@ export function Hero() {
               <div className="px-5 py-5">
                 <CodeBlock
                   compact
-                  code={`$ bunx create-stackit-app@latest create my-app --stack mern -y
+                  code={`$ bunx create-stackit-app@latest create nest-api --stack nestjs -y
 ✔ Environment looks good
-✔ Scaffolded 31 files → ./my-app
-✔ Done! my-app (mern, typescript, bun)
-$ cd my-app && bun run dev  # → client :5173 + api :5000`}
+✔ Scaffolded 43 files → ./nest-api
+✔ Done! nest-api (nestjs, typescript, node)
+$ cd nest-api && npm run dev  # → api :5000 + next :3000`}
                 />
                 <p className="mt-3 font-mono text-xs text-zinc-600">
                   <span className="animate-blink text-volt-400">▊</span> zero config · prompts when
@@ -117,7 +124,7 @@ $ cd my-app && bun run dev  # → client :5173 + api :5000`}
         </Reveal>
 
         {/* stats */}
-        <Reveal delay={420}>
+        <Reveal delay={480}>
           <div className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-4">
             {STATS.map((s) => (
               <div

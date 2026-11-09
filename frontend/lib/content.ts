@@ -138,7 +138,7 @@ export const FEATURES: Feature[] = [
   {
     icon: "shield",
     title: "Validation baked in",
-    body: "Every write endpoint ships with zod validation, a central error handler, 404s and an async wrapper. 400s, not 500s.",
+    body: "Every write endpoint ships with schema validation (zod or class-validator), a central error handler, 404s and an async wrapper. 400s, not 500s.",
   },
   {
     icon: "database",
