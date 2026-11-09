@@ -1,5 +1,5 @@
 /** Single source of truth — keep in sync with cli/package.json version. */
-export const APP_VERSION = "0.3.0";
+export const APP_VERSION = "0.3.1";
 
 export interface Stack {
   id: string;
