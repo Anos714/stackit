@@ -3,7 +3,7 @@ import type { FileMap } from "../utils/fs.ts";
 import { runScript } from "./common.ts";
 
 /*
- * FastAPI stack: React (Vite, TypeScript) client + Python API.
+ * FastAPI stack: Next.js (App Router, TypeScript) client + Python API.
  *
  * This is the "one stack done deep" template:
  *   - layered API (routes → services → models), typed end to end
@@ -76,7 +76,7 @@ testpaths = ["tests"]
 
 const ENV_EXAMPLE = `# Copy to server/.env (the API reads it with pydantic-settings).
 PORT=5000
-CLIENT_URL=http://localhost:5173
+CLIENT_URL=http://localhost:3000
 ENVIRONMENT=development
 
 # Postgres — started by \`docker compose up -d\`. Note the +asyncpg driver.
@@ -165,7 +165,7 @@ class Settings(BaseSettings):
     project_name: str = "__PROJECT_NAME__"
     environment: str = "development"
     port: int = 5000
-    client_url: str = "http://localhost:5173"
+    client_url: str = "http://localhost:3000"
 
     database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/stackit"
     auto_create_tables: bool = True
@@ -963,95 +963,103 @@ const CLIENT_PACKAGE_JSON = `{
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@types/node": "^22.10.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.5"
-  }
+    "typescript": "^5.8.3"
+  },
+  "trustedDependencies": ["sharp", "unrs-resolver"]
 }
 `;
 
 const CLIENT_TSCONFIG = `{
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
+    "strict": true,
     "noEmit": true,
-    "types": ["vite/client"]
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./*"] }
   },
-  "include": ["src"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
 }
 `;
 
-const CLIENT_VITE_CONFIG = `import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+const CLIENT_NEXT_CONFIG = `import type { NextConfig } from "next";
 
-// Dev server proxies /api to FastAPI (server/.env PORT, default 5000).
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 5173,
-    proxy: {
-      "/api": {
-        target: process.env.VITE_API_URL ?? "http://localhost:5000",
-        changeOrigin: true,
-      },
-    },
+// The browser calls the same origin; Next.js proxies /api/* to FastAPI.
+// Override API_URL when the API is not on localhost:5000.
+const API_URL = process.env.API_URL ?? "http://localhost:5000";
+
+const nextConfig: NextConfig = {
+  // Pin the workspace root to client/ — the scaffold also has a root package.json.
+  turbopack: { root: process.cwd() },
+  async rewrites() {
+    return [{ source: "/api/:path*", destination: \`\${API_URL}/api/:path*\` }];
   },
-});
+};
+
+export default nextConfig;
 `;
 
-const CLIENT_INDEX_HTML = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>__PROJECT_NAME__</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+const CLIENT_NEXT_ENV_DTS = `/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
 `;
 
-const CLIENT_MAIN_TSX = `import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App";
-import "./index.css";
+const CLIENT_LAYOUT_TSX = `import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import "./globals.css";
 
-const root = document.getElementById("root");
-if (!root) throw new Error("#root element missing");
+export const metadata: Metadata = {
+  title: "__PROJECT_NAME__",
+  description: "Next.js client for a FastAPI + Postgres API with real auth.",
+};
 
-createRoot(root).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
 `;
 
 const CLIENT_API_TS = `// Minimal typed API client for the FastAPI backend.
+// The browser talks to the same origin and Next.js rewrites /api/* to FastAPI
+// (see next.config.ts). Set NEXT_PUBLIC_API_URL to call the API directly.
 // Access/refresh tokens live in localStorage; a 401 retries once after refreshing.
-const BASE: string = import.meta.env.VITE_API_URL ?? "";
+const BASE: string = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 export interface User {
   id: string;
@@ -1097,24 +1105,37 @@ export class ApiError extends Error {
 const ACCESS_KEY = "stackit.access_token";
 const REFRESH_KEY = "stackit.refresh_token";
 
-let accessToken: string | null = localStorage.getItem(ACCESS_KEY);
-let refreshToken: string | null = localStorage.getItem(REFRESH_KEY);
+// Server-rendered modules have no localStorage, so tokens are loaded lazily and
+// guarded. Every entry point below touches this only from the browser.
+let accessToken: string | null = null;
+let refreshToken: string | null = null;
+let tokensLoaded = false;
+
+function loadTokens(): void {
+  if (tokensLoaded || typeof window === "undefined") return;
+  tokensLoaded = true;
+  accessToken = window.localStorage.getItem(ACCESS_KEY);
+  refreshToken = window.localStorage.getItem(REFRESH_KEY);
+}
 
 function storeTokens(pair: TokenPair): void {
   accessToken = pair.access_token;
   refreshToken = pair.refresh_token;
-  localStorage.setItem(ACCESS_KEY, pair.access_token);
-  localStorage.setItem(REFRESH_KEY, pair.refresh_token);
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(ACCESS_KEY, pair.access_token);
+  window.localStorage.setItem(REFRESH_KEY, pair.refresh_token);
 }
 
 export function clearSession(): void {
   accessToken = null;
   refreshToken = null;
-  localStorage.removeItem(ACCESS_KEY);
-  localStorage.removeItem(REFRESH_KEY);
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(ACCESS_KEY);
+  window.localStorage.removeItem(REFRESH_KEY);
 }
 
 export function hasSession(): boolean {
+  loadTokens();
   return Boolean(accessToken);
 }
 
@@ -1128,6 +1149,7 @@ async function readError(res: Response): Promise<string> {
 }
 
 async function refreshTokens(): Promise<boolean> {
+  loadTokens();
   if (!refreshToken) return false;
   const res = await fetch(BASE + "/api/auth/refresh", {
     method: "POST",
@@ -1149,6 +1171,7 @@ interface RequestOptions {
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  loadTokens();
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (accessToken) headers.Authorization = "Bearer " + accessToken;
 
@@ -1188,6 +1211,7 @@ export const api = {
   },
 
   async logout(): Promise<void> {
+    loadTokens();
     const token = refreshToken;
     clearSession();
     if (!token) return;
@@ -1200,13 +1224,14 @@ export const api = {
 };
 `;
 
-const CLIENT_APP_TSX = `import { useEffect, useState, type FormEvent } from "react";
-import { ApiError, api, clearSession, hasSession, type User } from "./lib/api";
-import "./App.css";
+const CLIENT_PAGE_TSX = `"use client";
+
+import { useEffect, useState, type FormEvent } from "react";
+import { ApiError, api, clearSession, hasSession, type User } from "@/lib/api";
 
 type Mode = "login" | "signup";
 
-export default function App() {
+export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
@@ -1607,19 +1632,22 @@ code {
 }
 `;
 
-const CLIENT_INDEX_CSS = `* {
-  box-sizing: border-box;
-}
-
+/** App styles plus a small base layer — app/layout.tsx imports this once. */
+const CLIENT_GLOBALS_CSS =
+  CLIENT_APP_CSS +
+  `
 html,
-body,
-#root {
+body {
   min-height: 100%;
 }
 `;
 
-const CLIENT_ENV_EXAMPLE = `# Used by production builds; dev goes through the Vite proxy instead.
-VITE_API_URL=http://localhost:5000
+const CLIENT_ENV_EXAMPLE = `# The Next.js server proxies /api/* to the API (default http://localhost:5000).
+# Change this if your FastAPI server runs elsewhere.
+API_URL=http://localhost:5000
+
+# Optional: call the API directly from the browser instead of through the proxy.
+# NEXT_PUBLIC_API_URL=http://localhost:5000
 `;
 
 const PY_RUNNER = `// Cross-platform launcher for the server's Python venv.
@@ -1637,8 +1665,10 @@ const venvPython = resolve(
 
 if (!existsSync(venvPython)) {
   console.error(
-    "Python venv not found. Run: python -m venv server/.venv && " +
-      "server/.venv/bin/pip install -r server/requirements-dev.txt",
+    "Python venv not found. Run from the project root:\\n" +
+      "  uv venv server/.venv && uv pip install --python server/.venv -r server/requirements-dev.txt\\n" +
+      "  # or, without uv:\\n" +
+      "  python -m venv server/.venv && server/.venv/bin/pip install -r server/requirements-dev.txt",
   );
   process.exit(1);
 }
@@ -1676,7 +1706,11 @@ volumes:
   pg-data:
 `;
 
-export const FASTAPI_GITIGNORE_EXTRA = `# python
+export const FASTAPI_GITIGNORE_EXTRA = `# next.js
+.next/
+next-env.d.ts
+
+# python
 .venv/
 __pycache__/
 *.py[cod]
@@ -1685,7 +1719,7 @@ __pycache__/
 .ruff_cache/
 `;
 
-/** Root package.json wiring the Vite client and the Python API together. */
+/** Root package.json wiring the Next.js client and the Python API together. */
 export function fastapiRootPackageJson(o: ProjectOptions): string {
   const pm = o.packageManager;
   return (
@@ -1763,20 +1797,19 @@ export function fastapiFiles(o: ProjectOptions): FileMap {
   };
 }
 
-/** TypeScript client with a working sign-in / sign-up / profile flow. */
+/** Next.js (App Router) client with a working sign-in / sign-up / profile flow. */
 export function fastapiClientFiles(o: ProjectOptions): FileMap {
   const sub = (s: string) => s.replaceAll("__PROJECT_NAME__", o.projectName);
 
   return {
     "client/package.json": CLIENT_PACKAGE_JSON,
     "client/tsconfig.json": CLIENT_TSCONFIG,
-    "client/vite.config.ts": CLIENT_VITE_CONFIG,
-    "client/index.html": sub(CLIENT_INDEX_HTML),
-    "client/src/main.tsx": CLIENT_MAIN_TSX,
-    "client/src/App.tsx": sub(CLIENT_APP_TSX),
-    "client/src/App.css": CLIENT_APP_CSS,
-    "client/src/index.css": CLIENT_INDEX_CSS,
-    "client/src/lib/api.ts": CLIENT_API_TS,
+    "client/next.config.ts": CLIENT_NEXT_CONFIG,
+    "client/next-env.d.ts": CLIENT_NEXT_ENV_DTS,
+    "client/app/layout.tsx": sub(CLIENT_LAYOUT_TSX),
+    "client/app/page.tsx": sub(CLIENT_PAGE_TSX),
+    "client/app/globals.css": CLIENT_GLOBALS_CSS,
+    "client/lib/api.ts": CLIENT_API_TS,
     "client/.env.example": CLIENT_ENV_EXAMPLE,
   };
 }
@@ -1785,21 +1818,24 @@ export function fastapiReadme(o: ProjectOptions): string {
   const pm = o.packageManager;
   return `# ${o.projectName}
 
-Scaffolded with **stackit** — \`fastapi\` (Python 3.11+, TypeScript client).
+Scaffolded with **stackit** — \`fastapi\` (Python 3.11+, Next.js App Router client).
 
 A working full-stack app, not a folder of TODOs: real auth (argon2 + JWT with
 refresh-token rotation), a protected endpoint, Postgres via SQLAlchemy 2.0,
-Alembic migrations, and a React client that signs up, signs in and loads
+Alembic migrations, and a Next.js client that signs up, signs in and loads
 \`/api/auth/me\`.
 
 ## Structure
 
 \`\`\`
 ${o.projectName}/
-├── client/                       # Vite + React + TypeScript (proxies /api → :5000)
-│   └── src/
-│       ├── App.tsx               # sign in / sign up / profile
-│       └── lib/api.ts            # typed client, token refresh on 401
+├── client/                       # Next.js App Router (rewrites /api → :5000)
+│   ├── app/
+│   │   ├── layout.tsx            # root layout + metadata
+│   │   ├── page.tsx              # sign in / sign up / profile
+│   │   └── globals.css
+│   ├── lib/api.ts                # typed client, token refresh on 401
+│   └── next.config.ts            # /api/:path* → FastAPI
 ├── server/                       # FastAPI + SQLAlchemy 2.0 + Postgres
 │   ├── app/
 │   │   ├── main.py               # app factory, CORS, error handlers
@@ -1825,11 +1861,12 @@ ${o.projectName}/
 cd ${o.projectName}
 cp .env.example server/.env
 docker compose up -d                       # Postgres on :5432
-${pm} run dev                              # API :5000 + client :5173
+${pm} run dev                              # API :5000 + Next.js :3000
 \`\`\`
 
-Open **http://localhost:5173**, click *Sign up*, and you are signed in.
+Open **http://localhost:3000**, click *Sign up*, and you are signed in.
 
+- Client: http://localhost:3000
 - API: http://localhost:5000
 - Swagger UI: http://localhost:5000/docs
 - Health: http://localhost:5000/api/health
@@ -1855,20 +1892,36 @@ once and replay the call.
 
 | Command | What it does |
 | ------- | ------------ |
-| \`${pm} run dev\` | FastAPI (reload) + Vite together |
+| \`${pm} run dev\` | FastAPI (reload) + Next.js together |
 | \`${pm} run test\` | pytest (auth flow, validation, protected routes) |
 | \`${pm} run lint\` | ruff + mypy (strict) |
 | \`${pm} run format\` | ruff format |
 | \`${pm} run db:migrate\` | alembic upgrade head |
-| \`${pm} run build\` | typecheck + production client build |
+| \`${pm} run build\` | production Next.js build |
 
-## Manual setup (no install step)
+## Python environment
+
+The scaffolder uses [uv](https://docs.astral.sh/uv/) when it is installed and
+falls back to a plain \`venv\` + \`pip\` otherwise:
 
 \`\`\`bash
+# with uv (fast)
+uv venv server/.venv
+uv pip install --python server/.venv -r server/requirements-dev.txt
+
+# without uv
 python -m venv server/.venv
 server/.venv/bin/pip install -r server/requirements-dev.txt   # Windows: server\\.venv\\Scripts\\pip
+\`\`\`
+
+Then install the client dependencies:
+
+\`\`\`bash
 cd client && ${pm} install && cd ..
 \`\`\`
+
+Both create the same \`server/.venv\`, and \`scripts/py.mjs\` runs every Python
+command through it — no activation needed.
 
 ## Layout rules
 

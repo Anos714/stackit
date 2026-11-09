@@ -84,7 +84,7 @@ export const STACKS: Stack[] = [
   },
   {
     id: "fastapi",
-    label: "FastAPI + React",
+    label: "FastAPI + Next.js",
     tagline: "Typed Python API with real auth — sign up, sign in, protected routes, done.",
     backend: "FastAPI + SQLAlchemy 2",
     database: "PostgreSQL",
@@ -95,7 +95,7 @@ export const STACKS: Stack[] = [
       { path: "server/app/services/auth.py", note: "argon2 + JWT rotation" },
       { path: "server/alembic/versions/", note: "initial migration" },
       { path: "server/tests/test_auth.py", note: "auth flow on SQLite" },
-      { path: "client/src/App.tsx", note: "working sign-in UI" },
+      { path: "client/app/page.tsx", note: "working sign-in UI" },
     ],
     highlight: ["real auth", "typed end to end"],
   },
@@ -136,7 +136,7 @@ export const FEATURES: Feature[] = [
   {
     icon: "package",
     title: "Monorepo that just runs",
-    body: "client/ + server/ with concurrently wired dev. One command boots the full stack, Vite proxy already pointing at the API.",
+    body: "client/ + server/ with concurrently wired dev. One command boots the full stack, with /api already proxied to the backend (Vite or Next.js rewrites).",
   },
 ];
 
@@ -148,11 +148,11 @@ export interface Faq {
 export const FAQS: Faq[] = [
   {
     q: "How is this different from create-next-app or degit templates?",
-    a: "Those give you one frontend. stackit scaffolds the whole full-stack repo — Vite + React client, a layered API backend, database wiring, Docker and env files — across 4 backend stacks, 2 languages and 2 runtimes, from one CLI.",
+    a: "Those give you one frontend. stackit scaffolds the whole full-stack repo — a Vite + React or Next.js client, a layered API backend, database wiring, Docker and env files — across 5 backend stacks, 3 languages and 3 runtimes, from one CLI.",
   },
   {
     q: "Do I need Bun installed?",
-    a: "No — bunx/npx runs the published binary with plain Node. You only need Bun if you run the CLI from source. Generated projects run on whatever you pick — Node 20+, Bun 1.2+, or Go 1.24+. The CLI even checks your machine first and tells you exactly what's missing.",
+    a: "No — bunx/npx runs the published binary with plain Node. You only need Bun if you run the CLI from source. Generated projects run on whatever you pick — Node 20+, Bun 1.2+, Go 1.24+, or Python 3.11+. The CLI even checks your machine first and tells you exactly what's missing.",
   },
   {
     q: "JavaScript or TypeScript?",

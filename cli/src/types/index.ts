@@ -27,7 +27,7 @@ export interface StackDef {
   id: StackId;
   label: string;
   description: string;
-  frontend: "vite-react";
+  frontend: "vite-react" | "nextjs";
   backend: "express" | "hono" | "fiber" | "fastapi";
   database: "mongodb" | "postgres" | "none";
   languages: readonly Language[];

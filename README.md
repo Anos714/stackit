@@ -1,7 +1,7 @@
 # stackit ⚡
 
 Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick the
-whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + React** — and get a
+whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + Next.js** — and get a
 best-practice monorepo in one command.
 
 Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit-app):
@@ -18,11 +18,12 @@ bunx create-stackit-app@latest create my-app --stack mern -y
 | `pern` | Vite + React | Express | PostgreSQL |
 | `hono-pg` | Vite + React | Hono | PostgreSQL |
 | `go-fiber` | Vite + React | Go Fiber | Postgres-ready |
-| `fastapi` | Vite + React | FastAPI + SQLAlchemy 2 | PostgreSQL |
+| `fastapi` | Next.js (App Router) | FastAPI + SQLAlchemy 2 | PostgreSQL |
 
 `fastapi` is the deepest template: argon2 hashing, JWT access + refresh tokens
 (rotated and revoked), a protected `/api/auth/me`, Alembic migrations, pytest,
-ruff, mypy strict — and a React client that can actually sign up and sign in.
+ruff, mypy strict — and a Next.js client that can actually sign up and sign in.
+Python deps install with `uv` when it is on PATH, falling back to `venv` + `pip`.
 
 ```bash
 bunx create-stackit-app@latest create my-api --stack fastapi -y

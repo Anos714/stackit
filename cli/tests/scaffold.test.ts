@@ -129,7 +129,7 @@ describe("buildFileMap", () => {
     }
   });
 
-  test("fastapi emits typed python api, migrations, tests and an auth client", () => {
+  test("fastapi emits typed python api, migrations, tests and a Next.js auth client", () => {
     const files = buildFileMap(opts({ stack: "fastapi", language: "python", runtime: "python" }));
     const keys = Object.keys(files);
     for (const f of [
@@ -148,12 +148,19 @@ describe("buildFileMap", () => {
       "server/tests/test_auth.py",
       "server/pyproject.toml",
       "scripts/py.mjs",
-      "client/src/lib/api.ts",
-      "client/src/App.tsx",
+      "client/app/layout.tsx",
+      "client/app/page.tsx",
+      "client/app/globals.css",
+      "client/lib/api.ts",
+      "client/next.config.ts",
+      "client/package.json",
       "docker-compose.yml",
     ]) {
       expect(keys).toContain(f);
     }
+
+    expect(keys).not.toContain("client/src/App.tsx");
+    expect(keys).not.toContain("client/vite.config.ts");
 
     expect(files["server/requirements.txt"]).toContain("fastapi");
     expect(files["server/requirements.txt"]).toContain("sqlalchemy");
@@ -162,9 +169,14 @@ describe("buildFileMap", () => {
     expect(files["server/app/api/routes/auth.py"]).toContain("/refresh");
     expect(files["server/app/core/security.py"]).toContain("PasswordHash");
     expect(files["server/app/schemas/user.py"]).not.toContain("hashed_password:");
-    expect(files["client/src/App.tsx"]).toContain("Sign up");
+    expect(files["client/app/page.tsx"]).toContain("Sign up");
+    expect(files["client/app/page.tsx"]).toContain('"use client"');
+    expect(files["client/package.json"]).toContain('"next": "16.4.0"');
+    expect(files["client/next.config.ts"]).toContain("/api/:path*");
+    expect(files["client/lib/api.ts"]).not.toContain("import.meta.env");
     expect(files["package.json"]).toContain("scripts/py.mjs");
     expect(files[".gitignore"]).toContain(".venv/");
+    expect(files[".gitignore"]).toContain(".next/");
     expect(files["server/.env.example"]).toContain("postgresql+asyncpg");
   });
 

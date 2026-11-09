@@ -24,6 +24,21 @@ export function run(
 }
 
 /**
+ * True when `cmd` resolves on PATH. Used for optional tooling (uv) where a
+ * missing binary is a normal fallback path rather than an error.
+ */
+export function canRun(cmd: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const probe = spawn(process.platform === "win32" ? "where" : "which", [cmd], {
+      stdio: "ignore",
+      shell: process.platform === "win32",
+    });
+    probe.on("error", () => resolve(false));
+    probe.on("close", (code) => resolve(code === 0));
+  });
+}
+
+/**
  * Declarative tool names map to platform binaries: most Linux distros only ship
  * `python3` while Windows creates `python`.
  */
