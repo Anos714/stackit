@@ -171,7 +171,7 @@ describe("buildFileMap", () => {
     expect(files["server/app/schemas/user.py"]).not.toContain("hashed_password:");
     expect(files["client/app/page.tsx"]).toContain("Sign up");
     expect(files["client/app/page.tsx"]).toContain('"use client"');
-    expect(files["client/package.json"]).toContain('"next": "16.4.0"');
+    expect(files["client/package.json"]).toContain('"next": "16.4.5"');
     expect(files["client/next.config.ts"]).toContain("/api/:path*");
     expect(files["client/lib/api.ts"]).not.toContain("import.meta.env");
     expect(files["package.json"]).toContain("scripts/py.mjs");
