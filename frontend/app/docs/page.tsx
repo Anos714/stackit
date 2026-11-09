@@ -225,7 +225,7 @@ bunx create-stackit-app@latest create nest-api --stack nestjs -y`}
 ├── docker-compose.yml       # one-command Mongo / Postgres
 └── .env.example`}
               />
-              <p>Go + Fiber instead generates <code>server/cmd/api/main.go</code> plus <code>server/internal/{"{config,db,handlers,middleware,models,routes}"}</code> and a Makefile.</p>
+              <p>Go + Fiber instead generates <code>server/cmd/api/main.go</code> plus <code className="break-all">server/internal/{"{config,db,handlers,middleware,models,routes}"}</code> and a Makefile.</p>
               <p>FastAPI ships a Python API in <code>server/app/</code> (<code>core · db · models · schemas · services · api</code>), Alembic migrations, a pytest suite and a Next.js (App Router) client that signs up, signs in and loads <code>/api/auth/me</code> through a <code>/api</code> rewrite.</p>
               <p>NestJS ships modules in <code>server/src/</code> (<code>auth · users · health · config · common · database</code>), TypeORM entities with a production migration, a Jest e2e suite on in-memory SQLite, and the same Next.js auth client talking to <code>:5000</code> through the <code>/api</code> rewrite.</p>
             </DocSection>

@@ -18,9 +18,13 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div className="fixed inset-x-0 top-[100px] z-40 h-px bg-transparent" aria-hidden>
+    <div
+      data-reading-progress
+      className="fixed inset-x-0 top-[calc(4rem+1px)] z-40 h-0.5 bg-transparent"
+      aria-hidden
+    >
       <div
-        className="h-full origin-left bg-gradient-to-r from-volt-500 via-volt-400 to-cyan-300 shadow-[0_0_12px_rgba(190,242,100,0.7)]"
+        className="h-full origin-left bg-gradient-to-r from-volt-500 via-volt-400 to-cyan-300"
         style={{ transform: `scaleX(${p})` }}
       />
     </div>
