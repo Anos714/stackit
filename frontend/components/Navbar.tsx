@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Sparkles, Star, X } from "lucide-react";
+import { Menu, Star, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,7 +18,6 @@ const LINKS = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [promo, setPromo] = useState(true);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -30,22 +29,6 @@ export function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      {promo && (
-        <div className="btn-shine flex h-9 items-center justify-center gap-2 bg-volt-400 px-10 text-zinc-950">
-          <Sparkles className="h-3.5 w-3.5 shrink-0" />
-          <p className="truncate font-mono text-[11px] font-semibold uppercase tracking-[0.14em] sm:text-xs">
-            Now shipping — NestJS + Next.js with real auth · Django · Gin
-          </p>
-          <button
-            onClick={() => setPromo(false)}
-            aria-label="Dismiss announcement"
-            className="absolute right-3 flex h-6 w-6 items-center justify-center rounded-md transition-colors hover:bg-black/10"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
-        </div>
-      )}
-
       <nav
         className={`transition-all duration-300 ${
           scrolled ? "border-b border-white/10 bg-[#09090b]/85 backdrop-blur-xl" : "bg-transparent"
