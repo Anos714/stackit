@@ -1,5 +1,5 @@
 /** Single source of truth — keep in sync with cli/package.json version. */
-export const APP_VERSION = "0.1.1";
+export const APP_VERSION = "0.2.0";
 
 export interface Stack {
   id: string;
@@ -72,7 +72,7 @@ export const STACKS: Stack[] = [
     backend: "Fiber + pgx (optional)",
     database: "Postgres-ready",
     runtime: "Go 1.24+",
-    command: "bunx create-stackit-app@latest create fast-api --stack go-fiber -y",
+    command: "bunx create-stackit-app@latest create go-api --stack go-fiber -y",
     files: [
       { path: "client/src/App.tsx", note: "demo page wired to the API" },
       { path: "server/cmd/api/main.go", note: "entrypoint" },
@@ -81,6 +81,23 @@ export const STACKS: Stack[] = [
       { path: "Makefile", note: "tidy / dev / build" },
     ],
     highlight: ["blazing fast", "single binary"],
+  },
+  {
+    id: "fastapi",
+    label: "FastAPI + React",
+    tagline: "Typed Python API with real auth — sign up, sign in, protected routes, done.",
+    backend: "FastAPI + SQLAlchemy 2",
+    database: "PostgreSQL",
+    runtime: "Python 3.11+",
+    command: "bunx create-stackit-app@latest create my-api --stack fastapi -y",
+    files: [
+      { path: "server/app/api/routes/auth.py", note: "signup · login · refresh · me" },
+      { path: "server/app/services/auth.py", note: "argon2 + JWT rotation" },
+      { path: "server/alembic/versions/", note: "initial migration" },
+      { path: "server/tests/test_auth.py", note: "auth flow on SQLite" },
+      { path: "client/src/App.tsx", note: "working sign-in UI" },
+    ],
+    highlight: ["real auth", "typed end to end"],
   },
 ];
 
@@ -163,9 +180,9 @@ export interface Flag {
 
 export const FLAGS: Flag[] = [
   { flag: "[project-name]", values: "my-app (lowercase, - _)", def: "prompt" },
-  { flag: "--stack", values: "mern | pern | hono-pg | go-fiber", def: "prompt (mern with -y)" },
-  { flag: "--language", values: "typescript | javascript (go-fiber → go)", def: "prompt (typescript with -y)" },
-  { flag: "--runtime", values: "node | bun (go-fiber → go)", def: "prompt (stack default with -y)" },
+  { flag: "--stack", values: "mern | pern | hono-pg | go-fiber | fastapi", def: "prompt (mern with -y)" },
+  { flag: "--language", values: "typescript | javascript (go-fiber → go, fastapi → python)", def: "prompt (typescript with -y)" },
+  { flag: "--runtime", values: "node | bun (go-fiber → go, fastapi → python)", def: "prompt (stack default with -y)" },
   { flag: "--pm", values: "npm | pnpm | yarn | bun", def: "bun if runtime is bun, else npm" },
   { flag: "-y, --yes", values: "skip all prompts", def: "off" },
   { flag: "--no-install", values: "skip dependency install", def: "install" },
@@ -173,7 +190,7 @@ export const FLAGS: Flag[] = [
 ];
 
 export const SCAFFOLD_OUTPUT = `✔ Environment looks good
-✔ Scaffolded 33 files → /home/you/test-mern
+✔ Scaffolded 31 files → /home/you/test-mern
 ✔ Done! test-mern (mern, typescript, bun)
 
 Next steps:

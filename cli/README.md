@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/npm/l/create-stackit-app.svg)](https://www.npmjs.com/package/create-stackit-app)
 
 Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick the
-whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber** — and get a
+whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + React** — and get a
 best-practice monorepo (Vite + React frontend, layered API backend, Docker for the DB).
 
 ## 🌐 Live demo & docs
@@ -41,6 +41,7 @@ bun run src/index.ts create my-app
 - Per stack, the CLI checks your machine and fails fast with a helpful hint:
   - `mern` / `pern` / `hono-pg` → Node >= 20 and/or Bun >= 1.2
   - `go-fiber` → Go >= 1.24 (+ Node >= 20 for the Vite frontend)
+  - `fastapi` → Python >= 3.11 (+ Node >= 20 for the Vite frontend)
 
 ## Running the CLI (run / develop)
 
@@ -63,10 +64,10 @@ bun run src/index.ts create shop-api --stack pern --language javascript --runtim
 | Flag | Values | Default |
 | ---- | ------ | ------- |
 | `[project-name]` | `my-app` (lowercase, `-_`) | prompt |
-| `--stack` | `mern` \| `pern` \| `hono-pg` \| `go-fiber` | prompt (`mern` with `-y`) |
-| `--language` | `typescript` \| `javascript` (`go-fiber` → `go` auto) | prompt (`typescript` with `-y`) |
-| `--runtime` | `node` \| `bun` (`go-fiber` → `go` auto) | prompt (stack default with `-y`) |
-| `--pm` | `npm` \| `pnpm` \| `yarn` \| `bun` | prompt (`bun` if runtime is bun, else `npm`) |
+| `--stack` | `mern` \| `pern` \| `hono-pg` \| `go-fiber` \| `fastapi` | prompt (`mern` with `-y`) |
+| `--language` | `typescript` \| `javascript` (`go-fiber` → `go`, `fastapi` → `python` auto) | prompt (`typescript` with `-y`) |
+| `--runtime` | `node` \| `bun` (`go-fiber` → `go`, `fastapi` → `python` auto) | prompt (stack default with `-y`) |
+| `--pm` | `npm` \| `pnpm` \| `yarn` \| `bun` (`fastapi`: client pm) | prompt (`bun` if runtime is bun, else `npm`) |
 | `-y, --yes` | skip all prompts | off |
 | `--no-install` | skip dependency install | install |
 | `--no-git` | skip `git init` | init |
@@ -119,12 +120,45 @@ my-app/
 `DATABASE_URL` unset → API runs with an in-memory store (demo mode);
 set it (docker compose gives you Postgres) → real persistence via `pgx`.
 
+### Layout (fastapi)
+
+```
+my-app/
+├── client/                    # Vite + React + TS, auth UI (proxies /api → :5000)
+│   └── src/{App.tsx, lib/api.ts}
+├── server/                    # FastAPI + SQLAlchemy 2 async + Alembic
+│   ├── app/
+│   │   ├── main.py            # app factory, CORS, error handlers
+│   │   ├── core/              # settings, argon2 hashing, JWT
+│   │   ├── db/                # async engine, get_db, Base
+│   │   ├── models/            # User, RefreshToken
+│   │   ├── schemas/           # pydantic v2 models
+│   │   ├── services/          # auth logic (rotation + revocation)
+│   │   └── api/               # deps + routes (auth, users, health)
+│   ├── alembic/versions/      # 0001_initial migration
+│   ├── tests/                 # pytest: full auth flow on in-memory SQLite
+│   └── requirements*.txt
+├── scripts/py.mjs             # cross-platform venv launcher for npm scripts
+├── docker-compose.yml
+└── .env.example
+```
+
+Ships **real auth**: signup, login, refresh (rotated + revoked), logout and a
+protected `/api/auth/me`. The client signs up, signs in and renders `/me` — no
+TODO screens. `npm run test` and `npm run lint` (ruff + mypy strict) work out of
+the box.
+
+```bash
+bunx create-stackit-app@latest create my-api --stack fastapi -y
+cd my-api && docker compose up -d && npm run dev
+```
+
 ## Scripts (this repo)
 
 ```bash
 bun install        # deps
 bun run src/index.ts --help
-bun test           # 13 tests: semver, registry, scaffold file-maps
+bun test           # 19 tests: semver, registry, scaffold file-maps (incl. fastapi)
 bunx tsc --noEmit  # typecheck
 bun run build      # bun build → dist/stackit
 ```

@@ -1,13 +1,31 @@
 # stackit ⚡
 
 Opinionated full-stack project scaffolder. Like `create-next-app`, but you pick the
-whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber** — and get a
+whole stack — **MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI + React** — and get a
 best-practice monorepo in one command.
 
 Published as [`create-stackit-app`](https://www.npmjs.com/package/create-stackit-app):
 
 ```bash
 bunx create-stackit-app@latest create my-app --stack mern -y
+```
+
+## Stacks
+
+| id | frontend | backend | database |
+| -- | -------- | ------- | -------- |
+| `mern` | Vite + React | Express | MongoDB |
+| `pern` | Vite + React | Express | PostgreSQL |
+| `hono-pg` | Vite + React | Hono | PostgreSQL |
+| `go-fiber` | Vite + React | Go Fiber | Postgres-ready |
+| `fastapi` | Vite + React | FastAPI + SQLAlchemy 2 | PostgreSQL |
+
+`fastapi` is the deepest template: argon2 hashing, JWT access + refresh tokens
+(rotated and revoked), a protected `/api/auth/me`, Alembic migrations, pytest,
+ruff, mypy strict — and a React client that can actually sign up and sign in.
+
+```bash
+bunx create-stackit-app@latest create my-api --stack fastapi -y
 ```
 
 🌐 **Live site & docs: [stackitcli.vercel.app](https://stackitcli.vercel.app/)**
@@ -49,7 +67,7 @@ bun run dev    # http://localhost:3000  ( / + /docs )
 
 | Where | Command | What |
 | ----- | ------- | ---- |
-| `cli/` | `bun test` | 13 tests: semver, registry, scaffold file-maps |
+| `cli/` | `bun test` | 19 tests: semver, registry, scaffold file-maps (incl. fastapi) |
 | `cli/` | `bunx tsc --noEmit` | typecheck |
 | `cli/` | `bun run build` | compile to `cli/dist/stackit` |
 | `frontend/` | `bun run dev` / `bun run build` | site dev / production build |

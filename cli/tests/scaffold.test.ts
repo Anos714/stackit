@@ -18,8 +18,8 @@ function opts(over: Partial<ProjectOptions> = {}): ProjectOptions {
 }
 
 describe("stack registry", () => {
-  test("ships four stacks", () => {
-    expect(STACK_IDS).toEqual(["mern", "pern", "hono-pg", "go-fiber"]);
+  test("ships five stacks", () => {
+    expect(STACK_IDS).toEqual(["mern", "pern", "hono-pg", "go-fiber", "fastapi"]);
   });
 
   test("go-fiber only supports go", () => {
@@ -27,6 +27,15 @@ describe("stack registry", () => {
     expect(isSupportedCombo("go-fiber", "go", "go")).toBe(true);
     expect(isSupportedCombo("mern", "go", "go")).toBe(false);
     expect(isSupportedCombo("mern", "typescript", "bun")).toBe(true);
+  });
+
+  test("fastapi is python for the server and lets you pick a client pm", () => {
+    const def = getStack("fastapi");
+    expect(def.languages).toEqual(["python"]);
+    expect(def.runtimes).toEqual(["python"]);
+    expect(def.packageManagers).toEqual(["npm", "pnpm", "yarn", "bun"]);
+    expect(isSupportedCombo("fastapi", "python", "python")).toBe(true);
+    expect(isSupportedCombo("fastapi", "typescript", "python")).toBe(false);
   });
 });
 
@@ -120,12 +129,53 @@ describe("buildFileMap", () => {
     }
   });
 
+  test("fastapi emits typed python api, migrations, tests and an auth client", () => {
+    const files = buildFileMap(opts({ stack: "fastapi", language: "python", runtime: "python" }));
+    const keys = Object.keys(files);
+    for (const f of [
+      "server/app/main.py",
+      "server/app/core/config.py",
+      "server/app/core/security.py",
+      "server/app/db/session.py",
+      "server/app/models/user.py",
+      "server/app/models/refresh_token.py",
+      "server/app/schemas/user.py",
+      "server/app/services/auth.py",
+      "server/app/api/deps.py",
+      "server/app/api/routes/auth.py",
+      "server/alembic.ini",
+      "server/alembic/versions/0001_initial.py",
+      "server/tests/test_auth.py",
+      "server/pyproject.toml",
+      "scripts/py.mjs",
+      "client/src/lib/api.ts",
+      "client/src/App.tsx",
+      "docker-compose.yml",
+    ]) {
+      expect(keys).toContain(f);
+    }
+
+    expect(files["server/requirements.txt"]).toContain("fastapi");
+    expect(files["server/requirements.txt"]).toContain("sqlalchemy");
+    expect(files["server/requirements.txt"]).toContain("alembic");
+    expect(files["server/requirements-dev.txt"]).toContain("pytest");
+    expect(files["server/app/api/routes/auth.py"]).toContain("/refresh");
+    expect(files["server/app/core/security.py"]).toContain("PasswordHash");
+    expect(files["server/app/schemas/user.py"]).not.toContain("hashed_password:");
+    expect(files["client/src/App.tsx"]).toContain("Sign up");
+    expect(files["package.json"]).toContain("scripts/py.mjs");
+    expect(files[".gitignore"]).toContain(".venv/");
+    expect(files["server/.env.example"]).toContain("postgresql+asyncpg");
+  });
+
   test("every template file is non-empty", () => {
     for (const stack of STACK_IDS) {
       const o =
         stack === "go-fiber"
           ? opts({ stack, language: "go", runtime: "go" })
-          : opts({ stack });
+          : stack === "fastapi"
+            ? opts({ stack, language: "python", runtime: "python" })
+            : opts({ stack });
       for (const [name, content] of Object.entries(buildFileMap(o))) {
         expect(content.length, `${stack}:${name}`).toBeGreaterThan(0);
       }

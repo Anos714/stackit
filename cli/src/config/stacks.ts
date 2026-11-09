@@ -69,6 +69,22 @@ export const STACKS: Record<StackId, StackDef> = {
       { tool: "node", minVersion: "20.0.0", hint: "https://nodejs.org — needed for Vite frontend" },
     ],
   },
+  fastapi: {
+    id: "fastapi",
+    label: "FastAPI + React",
+    description: "React (Vite) + FastAPI + SQLAlchemy 2 + Postgres, with real auth",
+    frontend: "vite-react",
+    backend: "fastapi",
+    database: "postgres",
+    languages: ["python"] as const,
+    runtimes: ["python"] as const,
+    packageManagers: ALL_PM,
+    defaultRuntime: "python",
+    requirements: [
+      { tool: "python", minVersion: "3.11.0", hint: "https://python.org — >= 3.11 (3.12 recommended)" },
+      { tool: "node", minVersion: "20.0.0", hint: "https://nodejs.org — needed for the Vite frontend" },
+    ],
+  },
 } as const;
 
 export const STACK_IDS = Object.keys(STACKS) as StackId[];

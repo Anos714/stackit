@@ -34,7 +34,7 @@ export function Navbar() {
         <div className="btn-shine flex h-9 items-center justify-center gap-2 bg-volt-400 px-10 text-zinc-950">
           <Sparkles className="h-3.5 w-3.5 shrink-0" />
           <p className="truncate font-mono text-[11px] font-semibold uppercase tracking-[0.14em] sm:text-xs">
-            Coming soon — NestJS · Django · FastAPI · Gin stacks
+            Now shipping — FastAPI with real auth · NestJS · Django · Gin
           </p>
           <button
             onClick={() => setPromo(false)}

@@ -7,7 +7,7 @@ import "./globals.css";
 
 const SITE_URL = "https://stackitcli.vercel.app";
 const SITE_NAME = "stackit";
-const TAGLINE = "Scaffold full-stack apps in one command — MERN, PERN, Hono + Postgres, Go + Fiber.";
+const TAGLINE = "Scaffold full-stack apps in one command — MERN, PERN, Hono + Postgres, Go + Fiber, FastAPI.";
 
 const display = Space_Grotesk({
   variable: "--f-display",
@@ -34,13 +34,15 @@ export const metadata: Metadata = {
     template: "%s — stackit",
   },
   description:
-    "Opinionated full-stack scaffolder. MERN, PERN, React + Hono + Postgres, Go + Fiber — best-practice monorepos with validation, Docker and docs.",
+    "Opinionated full-stack scaffolder. MERN, PERN, React + Hono + Postgres, Go + Fiber, FastAPI — best-practice monorepos with validation, auth, Docker and docs.",
   keywords: [
     "scaffolder",
     "mern",
     "pern",
     "hono",
     "go fiber",
+    "fastapi",
+    "python",
     "cli",
     "bun",
     "vite",

@@ -1,8 +1,8 @@
-export type StackId = "mern" | "pern" | "hono-pg" | "go-fiber";
+export type StackId = "mern" | "pern" | "hono-pg" | "go-fiber" | "fastapi";
 
-export type Language = "typescript" | "javascript" | "go";
+export type Language = "typescript" | "javascript" | "go" | "python";
 
-export type Runtime = "node" | "bun" | "go";
+export type Runtime = "node" | "bun" | "go" | "python";
 
 export type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
 
@@ -28,7 +28,7 @@ export interface StackDef {
   label: string;
   description: string;
   frontend: "vite-react";
-  backend: "express" | "hono" | "fiber";
+  backend: "express" | "hono" | "fiber" | "fastapi";
   database: "mongodb" | "postgres" | "none";
   languages: readonly Language[];
   runtimes: readonly Runtime[];

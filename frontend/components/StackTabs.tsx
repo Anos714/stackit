@@ -101,7 +101,7 @@ export function StackTabs() {
               <div className="flex-1 rounded-xl border border-white/10 bg-black/40 p-4 font-mono text-xs leading-loose text-zinc-500">
                 <p className="text-zinc-600"># then</p>
                 <p>
-                  <span className="text-volt-400">$</span> cd {stack.id === "mern" ? "my-app" : stack.id === "pern" ? "shop-api" : stack.id === "hono-pg" ? "edge-api" : "fast-api"}
+                  <span className="text-volt-400">$</span> cd {stack.id === "mern" ? "my-app" : stack.id === "pern" ? "shop-api" : stack.id === "hono-pg" ? "edge-api" : stack.id === "go-fiber" ? "go-api" : "my-api"}
                 </p>
                 <p>
                   <span className="text-volt-400">$</span> docker compose up -d
