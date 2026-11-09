@@ -969,7 +969,7 @@ const CLIENT_PACKAGE_JSON = `{
     "start": "next start"
   },
   "dependencies": {
-    "next": "16.4.0",
+    "next": "16.4.5",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
