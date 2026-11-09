@@ -56,7 +56,7 @@ export function CodeBlock({
       <button
         onClick={copy}
         aria-label="Copy to clipboard"
-        className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-400 opacity-0 backdrop-blur transition-all hover:border-volt-400/40 hover:text-volt-300 focus:opacity-100 focus:outline-none group-hover:opacity-100"
+        className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-400 opacity-100 backdrop-blur transition-all hover:border-volt-400/40 hover:text-volt-300 focus:opacity-100 focus:outline-none sm:opacity-0 sm:group-hover:opacity-100"
       >
         {copied ? <Check className="h-4 w-4 text-volt-400" /> : <Copy className="h-4 w-4" />}
       </button>

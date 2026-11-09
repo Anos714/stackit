@@ -51,9 +51,12 @@ function DevCommand() {
       <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono text-[13px] text-zinc-200">
         <span className="text-volt-400">$</span> bun run dev
       </code>
-      <div className="flex shrink-0 gap-2 font-mono text-[11px]">
+      <div className="flex shrink-0 flex-wrap gap-2 font-mono text-[11px]">
         <span className="rounded-full border border-volt-400/30 bg-volt-400/10 px-3 py-1 text-volt-300">
-          client :5173
+          vite :5173
+        </span>
+        <span className="rounded-full border border-volt-400/30 bg-volt-400/10 px-3 py-1 text-volt-300">
+          next :3000
         </span>
         <span className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-cyan-300">
           api :5000
@@ -65,7 +68,7 @@ function DevCommand() {
 
 export function Features() {
   return (
-    <section id="features" className="relative scroll-mt-28 py-20 sm:py-28">
+    <section id="features" className="relative scroll-mt-28 overflow-hidden py-20 sm:py-28">
       <div
         className="absolute left-1/2 top-0 h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-volt-400/[0.06] blur-[130px]"
         aria-hidden
