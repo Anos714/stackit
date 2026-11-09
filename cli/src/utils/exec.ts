@@ -23,6 +23,15 @@ export function run(
   });
 }
 
+/**
+ * Declarative tool names map to platform binaries: most Linux distros only ship
+ * `python3` while Windows creates `python`.
+ */
+export function toolBinary(tool: string): string {
+  if (tool !== "python") return tool;
+  return process.platform === "win32" ? "python" : "python3";
+}
+
 export function installArgs(pm: string): string[] {
   switch (pm) {
     case "npm":

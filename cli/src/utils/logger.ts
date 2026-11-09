@@ -1,4 +1,5 @@
 import pc from "picocolors";
+import type { StackId } from "../types/index.ts";
 
 export const log = {
   info: (msg: string) => console.log(`${pc.cyan("ℹ")} ${msg}`),
@@ -9,9 +10,23 @@ export const log = {
   title: (msg: string) => console.log(`\n${pc.bold(pc.cyan(msg))}`),
 };
 
-export function nextSteps(targetDir: string, pm: string, install: boolean): void {
+export function nextSteps(targetDir: string, pm: string, install: boolean, stack?: StackId): void {
   log.title("Next steps:");
   console.log(`  ${pc.dim("$")} ${pc.bold(`cd ${targetDir}`)}`);
+
+  if (stack === "fastapi") {
+    console.log(`  ${pc.dim("$")} ${pc.bold("docker compose up -d")}  ${pc.dim("# Postgres on :5432")}`);
+    if (!install) {
+      console.log(`  ${pc.dim("$")} ${pc.bold("python -m venv server/.venv")}`);
+      console.log(
+        `  ${pc.dim("$")} ${pc.bold("server/.venv/bin/pip install -r server/requirements-dev.txt")}`,
+      );
+      console.log(`  ${pc.dim("$")} ${pc.bold(`cd client && ${pm} install && cd ..`)}`);
+    }
+    console.log(`  ${pc.dim("$")} ${pc.bold(`${pm} run dev`)}  ${pc.dim("# API :5000 + client :5173")}`);
+    return;
+  }
+
   if (!install) {
     const cmd = pm === "npm" ? "npm install" : `${pm} install`;
     console.log(`  ${pc.dim("$")} ${pc.bold(cmd)}`);

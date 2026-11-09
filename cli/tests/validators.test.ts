@@ -17,6 +17,10 @@ describe("parseVersion", () => {
     });
   });
 
+  test("parses python output", () => {
+    expect(parseVersion("Python 3.12.3")).toEqual({ major: 3, minor: 12, patch: 3 });
+  });
+
   test("throws on garbage", () => {
     expect(() => parseVersion("no version here honestly")).toThrow();
   });

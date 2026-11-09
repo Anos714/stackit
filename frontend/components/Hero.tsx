@@ -103,7 +103,7 @@ export function Hero() {
                   compact
                   code={`$ bunx create-stackit-app@latest create my-app --stack mern -y
 ✔ Environment looks good
-✔ Scaffolded 33 files → ./my-app
+✔ Scaffolded 31 files → ./my-app
 ✔ Done! my-app (mern, typescript, bun)
 $ cd my-app && bun run dev  # → client :5173 + api :5000`}
                 />

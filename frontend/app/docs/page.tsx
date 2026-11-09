@@ -95,8 +95,8 @@ cd stackit/cli
 bun install`}
             />
             <p>
-              Per-stack runtimes (Node 20+, Bun 1.2+, Go 1.24+) are checked automatically before
-              scaffolding.
+              Per-stack runtimes (Node 20+, Bun 1.2+, Go 1.24+, Python 3.11+) are checked automatically
+              before scaffolding.
             </p>
           </DocSection>
 
@@ -113,7 +113,10 @@ bunx create-stackit-app@latest create my-app --stack mern --language typescript 
 bunx create-stackit-app@latest create shop-api --stack pern --language javascript --runtime node --pm npm -y --no-install --no-git
 
 # Go + Fiber (language/runtime auto-resolve to go)
-bunx create-stackit-app@latest create fast-api --stack go-fiber -y`}
+bunx create-stackit-app@latest create go-api --stack go-fiber -y
+
+# FastAPI + React with real auth (language/runtime auto-resolve to python)
+bunx create-stackit-app@latest create my-api --stack fastapi -y`}
             />
           </DocSection>
 
@@ -170,7 +173,7 @@ bunx create-stackit-app@latest create fast-api --stack go-fiber -y`}
             </DocSection>
 
             <DocSection id="stacks" kicker="stacks" title="Stacks">
-              <p>Four stacks, each a Vite + React frontend plus a backend with its own database:</p>
+              <p>Five stacks, each a Vite + React frontend plus a backend with its own database:</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {STACKS.map((s) => (
                   <div
@@ -220,6 +223,7 @@ bunx create-stackit-app@latest create fast-api --stack go-fiber -y`}
 └── .env.example`}
               />
               <p>Go + Fiber instead generates <code>server/cmd/api/main.go</code> plus <code>server/internal/{"{config,db,handlers,middleware,models,routes}"}</code> and a Makefile.</p>
+              <p>FastAPI ships a Python API in <code>server/app/</code> (<code>core · db · models · schemas · services · api</code>), Alembic migrations, a pytest suite and a React client that signs up, signs in and loads <code>/api/auth/me</code>.</p>
             </DocSection>
 
             <DocSection id="run" kicker="run" title="Running it">
@@ -248,7 +252,9 @@ bun run dev                   # (or npm/pnpm/yarn run dev) → client + server`}
               <p>
                 Go stacks: <code>cd server && go mod tidy && go run ./cmd/api</code>, or everything
                 via <code>make dev</code>. Without <code>DATABASE_URL</code> the API runs in demo
-                mode (in-memory store); set it for real Postgres persistence.
+                mode (in-memory store); set it for real Postgres persistence. FastAPI stacks
+                create their tables on boot in dev — set <code>AUTO_CREATE_TABLES=false</code> and
+                run <code>npm run db:migrate</code> in production.
               </p>
             </DocSection>
 

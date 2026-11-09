@@ -13,8 +13,8 @@ export function Footer() {
           <div>
             <Logo compact />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">
-              Opinionated full-stack scaffolder. MERN, PERN, Hono + Postgres, Go + Fiber — one
-              command, best-practice repo.
+              Opinionated full-stack scaffolder. MERN, PERN, Hono + Postgres, Go + Fiber,
+              FastAPI — one command, best-practice repo.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <a

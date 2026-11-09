@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { getStack } from "../config/stacks.ts";
+import { toolBinary } from "../utils/exec.ts";
 import type { ProjectOptions } from "../types/index.ts";
 
 const execFileAsync = promisify(execFile);
@@ -28,6 +29,13 @@ function fmt(v: Version): string {
   return `${v.major}.${v.minor}.${v.patch}`;
 }
 
+/**
+ * The `python` runtime tool is spelled differently per platform: most Linux distros
+ * only ship `python3`, while Windows installers create `python`. The mapping lives
+ * in utils/exec so generators and validators agree on it.
+ */
+export { toolBinary } from "../utils/exec.ts";
+
 async function commandExists(cmd: string): Promise<boolean> {
   try {
     await execFileAsync(process.platform === "win32" ? "where" : "which", [cmd]);
@@ -43,7 +51,8 @@ async function rawVersion(cmd: string): Promise<string> {
   return (stdout || stderr).trim();
 }
 
-async function requireTool(cmd: string, min: string, hint: string): Promise<void> {
+async function requireTool(tool: string, min: string, hint: string): Promise<void> {
+  const cmd = toolBinary(tool);
   if (!(await commandExists(cmd))) {
     throw new Error(`"${cmd}" is not installed. ${hint}`);
   }
@@ -54,7 +63,8 @@ async function requireTool(cmd: string, min: string, hint: string): Promise<void
   }
 }
 
-async function warnTool(cmd: string, min: string): Promise<string | null> {
+async function warnTool(tool: string, min: string): Promise<string | null> {
+  const cmd = toolBinary(tool);
   if (!(await commandExists(cmd))) return `"${cmd}" not found — install it before running install/dev.`;
   try {
     const installed = parseVersion(await rawVersion(cmd));
@@ -76,7 +86,7 @@ export async function validateEnvironment(options: ProjectOptions): Promise<stri
   const stack = getStack(options.stack);
 
   // 1. Runtime is fatal — scaffolding targets it directly.
-  const runtimeTool = options.runtime; // "node" | "bun" | "go"
+  const runtimeTool = options.runtime; // "node" | "bun" | "go" | "python"
   const req = stack.requirements.find((r) => r.tool === runtimeTool);
   await requireTool(runtimeTool, req?.minVersion ?? "0.0.0", req?.hint ?? "");
 
@@ -89,8 +99,8 @@ export async function validateEnvironment(options: ProjectOptions): Promise<stri
     }
   }
 
-  // 3. go-fiber frontend still needs node for Vite.
-  if (options.stack === "go-fiber") {
+  // 3. Go/FastAPI frontends still need node for Vite.
+  if (options.stack === "go-fiber" || options.stack === "fastapi") {
     const w = await warnTool("node", "20.0.0");
     if (w) warnings.push(`Frontend needs Node LTS: ${w}`);
   }

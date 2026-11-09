@@ -10,7 +10,7 @@ import type { ProjectOptions } from "../../types/index.ts";
 
 export const createCommand = new Command("create")
   .argument("[project-name]", "name of the project directory to create")
-  .option("--stack <stack>", "stack: mern | pern | hono-pg | go-fiber")
+  .option("--stack <stack>", "stack: mern | pern | hono-pg | go-fiber | fastapi")
   .option("--language <lang>", "language: typescript | javascript (go stacks use go)")
   .option("--runtime <runtime>", "runtime: node | bun (go-fiber uses go)")
   .option("--pm <pm>", "package manager: npm | pnpm | yarn | bun")
@@ -59,6 +59,6 @@ export const createCommand = new Command("create")
     }
 
     log.ok(`Done! ${pc.bold(options.projectName)} (${options.stack}, ${options.language}, ${options.runtime})`);
-    nextSteps(options.projectName, options.packageManager, options.install);
+    nextSteps(options.projectName, options.packageManager, options.install, options.stack);
     p.outro(pc.green("Happy hacking!"));
   });

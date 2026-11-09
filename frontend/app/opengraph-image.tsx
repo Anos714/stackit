@@ -48,7 +48,7 @@ export default function OgImage() {
         Full-stack apps, scaffolded right.
       </div>
       <div style={{ marginTop: 12, fontSize: 24, color: "#a1a1aa" }}>
-        MERN · PERN · Hono + Postgres · Go + Fiber
+        MERN · PERN · Hono + Postgres · Go + Fiber · FastAPI
       </div>
 
       <div
