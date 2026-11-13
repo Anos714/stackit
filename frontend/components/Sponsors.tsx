@@ -4,6 +4,16 @@ import { Reveal } from "./Reveal";
 const MAILTO =
   "mailto:sainrahul374@gmail.com?subject=Sponsoring%20stackit&body=Hey%20Rahul%2C%0A%0AI%27d%20like%20to%20sponsor%20stackit.%20Here%27s%20what%20I%20had%20in%20mind%3A%0A%0A";
 
+const SLOT_COUNT = 6;
+
+const SPONSORS = [
+  {
+    name: "Kilosmith",
+    note: "Heavy files, made light.",
+    href: "https://kilosmith.vercel.app/",
+  },
+];
+
 const SUPPORT = [
   {
     label: "Star stackit on GitHub",
@@ -23,6 +33,8 @@ const SUPPORT = [
 ];
 
 export function Sponsors() {
+  const openSlots = SLOT_COUNT - SPONSORS.length;
+
   return (
     <section id="sponsors" className="relative scroll-mt-28 border-t border-white/10 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
@@ -51,17 +63,42 @@ export function Sponsors() {
             <div className="sm:max-w-[640px] lg:col-span-7">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-zinc-500">
-                  Open slots
+                  {openSlots} slots open
                 </p>
                 <p className="text-xs text-zinc-500">your logo goes here</p>
               </div>
 
               <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-6">
-                {Array.from({ length: 6 }, (_, i) => (
+                {SPONSORS.map((s) => (
                   <a
-                    key={i}
+                    key={s.name}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={`${s.name} — ${s.note}`}
+                    aria-label={`${s.name} — ${s.note}`}
+                    className="group relative flex aspect-square flex-col items-center justify-center gap-1.5 rounded-2xl border border-[#ffd23f]/30 bg-[#fff9ee] px-2 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#ffd23f] hover:shadow-[0_16px_36px_rgba(0,0,0,0.45)] focus-visible:-translate-y-1 focus-visible:ring-2 focus-visible:ring-volt-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b] focus-visible:outline-none"
+                  >
+                    <svg
+                      viewBox="10 14 44 40"
+                      aria-hidden
+                      className="h-[42%] w-auto transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-105 group-focus-visible:-rotate-6 group-focus-visible:scale-105"
+                    >
+                      <rect x="12" y="16" width="40" height="10" rx="5" fill="#ffd23f" />
+                      <rect x="12" y="29" width="28" height="10" rx="5" fill="#a9c7ff" />
+                      <rect x="12" y="42" width="15" height="10" rx="5" fill="#ff5ca8" />
+                    </svg>
+                    <span className="font-display text-[9px] font-semibold leading-none tracking-[-0.01em] text-[#221139] sm:text-[10px]">
+                      {s.name}
+                    </span>
+                    <ArrowUpRight className="pointer-events-none absolute right-1.5 top-1.5 h-3.5 w-3.5 -translate-y-1 text-[#221139]/35 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:text-[#221139] group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100" />
+                  </a>
+                ))}
+                {Array.from({ length: openSlots }, (_, i) => (
+                  <a
+                    key={`open-${i}`}
                     href={MAILTO}
-                    aria-label={`Sponsor slot ${i + 1} — email Rahul about sponsoring stackit`}
+                    aria-label={`Sponsor slot ${SPONSORS.length + i + 1} — email Rahul about sponsoring stackit`}
                     className="group flex aspect-square items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.02] transition-colors duration-300 hover:border-volt-400/50 hover:bg-volt-400/[0.05]"
                   >
                     <Plus className="h-5 w-5 text-zinc-600 transition-all duration-300 group-hover:rotate-90 group-hover:text-volt-300" />
