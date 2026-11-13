@@ -51,6 +51,13 @@ export function Sponsors() {
                 stackit is built by one developer and stays free for everyone. Sponsors cover the
                 time that goes into new stacks, docs and releases.
               </p>
+              <p className="mt-4 text-[13px] leading-relaxed text-zinc-500">
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-volt-300">
+                  $10 one-time
+                </span>
+                <span className="mx-2 text-zinc-700">/</span>
+                logo tile + link to your site, live within an hour.
+              </p>
               <a
                 href={MAILTO}
                 className="group mt-7 inline-flex items-center gap-1.5 border-b border-volt-400/35 pb-1 font-mono text-[13px] text-volt-300 transition-colors hover:border-volt-400"
