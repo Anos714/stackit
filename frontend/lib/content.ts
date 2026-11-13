@@ -157,6 +157,7 @@ export const FEATURES: Feature[] = [
 export interface Faq {
   q: string;
   a: string;
+  links?: { label: string; href: string }[];
 }
 
 export const FAQS: Faq[] = [
@@ -183,6 +184,14 @@ export const FAQS: Faq[] = [
   {
     q: "Is stackit published to npm?",
     a: "Yes! No setup needed: bunx create-stackit-app@latest create my-app --stack mern -y (or npx). Prefer a global install? npm install -g create-stackit-app gives you the stackit command everywhere. Source runners can still git clone + bun install from cli/.",
+  },
+  {
+    q: "How do I sponsor stackit?",
+    a: "Sponsor slots are $5. Click any open slot in the Sponsors section — it opens a pre-filled email. Send your logo, name and link, then send $5 on Buy Me a Coffee. Your logo goes live within an hour.",
+    links: [
+      { label: "Pick an open slot", href: "#sponsors" },
+      { label: "Pay $5 on Buy Me a Coffee", href: "https://buymeacoffee.com/anos714" },
+    ],
   },
 ];
 
