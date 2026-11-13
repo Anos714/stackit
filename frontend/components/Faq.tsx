@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus } from "lucide-react";
+import { ArrowUpRight, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { FAQS } from "../lib/content";
 import { Reveal, SectionHeading } from "./Reveal";
@@ -50,9 +50,30 @@ export function Faq() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-400 sm:px-6">
+                      <p
+                        className={`px-5 text-sm leading-relaxed text-zinc-400 sm:px-6 ${
+                          f.links?.length ? "pb-3" : "pb-5"
+                        }`}
+                      >
                         {f.a}
                       </p>
+                      {f.links?.length ? (
+                        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-5 pb-5 sm:px-6">
+                          {f.links.map((link) => (
+                            <a
+                              key={link.label}
+                              href={link.href}
+                              {...(link.href.startsWith("http")
+                                ? { target: "_blank", rel: "noreferrer" }
+                                : {})}
+                              className="group inline-flex items-center gap-1 rounded-sm text-[13px] font-medium text-volt-300 transition-colors hover:text-volt-400 focus-visible:ring-2 focus-visible:ring-volt-400/60 focus-visible:outline-none"
+                            >
+                              {link.label}
+                              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                            </a>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
