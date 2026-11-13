@@ -2,6 +2,7 @@ import { ArrowRight, BookOpen, Terminal } from "lucide-react";
 import Link from "next/link";
 import { CodeBlock } from "./CodeBlock";
 import { CountUp } from "./CountUp";
+import { DownloadStats } from "./DownloadStats";
 import { HeroCommand } from "./HeroCommand";
 import { Reveal } from "./Reveal";
 
@@ -80,6 +81,10 @@ export function Hero() {
                 Read the docs
               </Link>
             </div>
+          </Reveal>
+
+          <Reveal delay={400} className="mt-7">
+            <DownloadStats />
           </Reveal>
         </div>
 
