@@ -45,6 +45,7 @@ export function Footer() {
               ["Features", "/#features"],
               ["Workflow", "/#workflow"],
               ["FAQ", "/#faq"],
+              ["Sponsors", "/#sponsors"],
             ]}
           />
           <FooterCol
