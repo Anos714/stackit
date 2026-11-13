@@ -15,8 +15,8 @@ export default function Home() {
       <StackTabs />
       <Features />
       <Workflow />
-      <Faq />
       <Sponsors />
+      <Faq />
       <Cta />
     </>
   );
