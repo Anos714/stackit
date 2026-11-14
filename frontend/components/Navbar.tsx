@@ -84,7 +84,7 @@ export function Navbar({ weeklyDownloads = null, stars = null }: NavbarProps) {
               target="_blank"
               rel="noreferrer"
               aria-label={
-                stars !== null && stars > 0
+                stars !== null
                   ? `Star stackit on GitHub — ${nf.format(stars)} stars`
                   : "Star stackit on GitHub"
               }
@@ -93,8 +93,8 @@ export function Navbar({ weeklyDownloads = null, stars = null }: NavbarProps) {
               <GithubMark className="h-4 w-4" />
               <span className="hidden font-medium lg:inline">Star</span>
               <Star className="hidden h-3.5 w-3.5 fill-amber-300 text-amber-300 transition-transform duration-300 group-hover:rotate-[20deg] lg:block" />
-              {stars !== null && stars > 0 && (
-                <span className="hidden rounded-full bg-white/10 px-2 py-0.5 font-mono text-[11px] tabular-nums text-zinc-300 lg:inline-flex">
+              {stars !== null && (
+                <span className="inline-flex rounded-full bg-white/10 px-2 py-0.5 font-mono text-[11px] tabular-nums text-zinc-300">
                   {nf.format(stars)}
                 </span>
               )}
@@ -157,7 +157,7 @@ export function Navbar({ weeklyDownloads = null, stars = null }: NavbarProps) {
               rel="noreferrer"
               onClick={() => setOpen(false)}
               aria-label={
-                stars !== null && stars > 0
+                stars !== null
                   ? `Star stackit on GitHub — ${nf.format(stars)} stars`
                   : "Star stackit on GitHub"
               }
@@ -166,7 +166,7 @@ export function Navbar({ weeklyDownloads = null, stars = null }: NavbarProps) {
               <GithubMark className="h-4 w-4" />
               Star on GitHub
               <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-              {stars !== null && stars > 0 && (
+              {stars !== null && (
                 <span className="rounded-full bg-white/10 px-2 py-0.5 font-mono text-[11px] tabular-nums text-zinc-300">
                   {nf.format(stars)}
                 </span>
