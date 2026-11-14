@@ -3,6 +3,8 @@ import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
+import { getGithubStars } from "../lib/github-stars";
+import { getNpmDownloads } from "../lib/npm-downloads";
 import "./globals.css";
 
 const SITE_URL = "https://stackitcli.vercel.app";
@@ -88,11 +90,13 @@ const JSON_LD = {
   offers: { "@type": "Offer", price: "0" },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [downloads, stars] = await Promise.all([getNpmDownloads(), getGithubStars()]);
+
   return (
     <html lang="en" className="dark">
       <body className={`${display.variable} ${sans.variable} ${mono.variable} bg-[#09090b] text-zinc-100`}>
@@ -100,7 +104,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
-        <Navbar />
+        <Navbar weeklyDownloads={downloads.weekly} stars={stars} />
         <main>{children}</main>
         <Footer />
         <Analytics />
