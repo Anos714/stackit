@@ -1,19 +1,8 @@
 import { ArrowUpRight, Coffee, Package, Plus } from "lucide-react";
+import { SPONSOR_MAILTO, SPONSOR_SLOT_COUNT, SPONSORS } from "../lib/sponsors";
 import { GithubMark } from "./GithubMark";
 import { Reveal } from "./Reveal";
-
-const MAILTO =
-  "mailto:sainrahul374@gmail.com?subject=Sponsoring%20stackit&body=Hey%20Rahul%2C%0A%0AI%27d%20like%20to%20sponsor%20stackit.%20Here%27s%20what%20I%20had%20in%20mind%3A%0A%0A";
-
-const SLOT_COUNT = 6;
-
-const SPONSORS = [
-  {
-    name: "Kilosmith",
-    note: "Heavy files, made light.",
-    href: "https://kilosmith.vercel.app/",
-  },
-];
+import { SponsorMark } from "./SponsorMark";
 
 const SUPPORT = [
   {
@@ -34,7 +23,7 @@ const SUPPORT = [
 ];
 
 export function Sponsors() {
-  const openSlots = SLOT_COUNT - SPONSORS.length;
+  const openSlots = SPONSOR_SLOT_COUNT - SPONSORS.length;
 
   return (
     <section id="sponsors" className="relative scroll-mt-28 border-t border-white/10 py-20 sm:py-24">
@@ -60,7 +49,7 @@ export function Sponsors() {
                 logo tile + link to your site, live within an hour.
               </p>
               <a
-                href={MAILTO}
+                href={SPONSOR_MAILTO}
                 className="group mt-7 inline-flex items-center gap-1.5 border-b border-volt-400/35 pb-1 font-mono text-[13px] text-volt-300 transition-colors hover:border-volt-400"
               >
                 Become a sponsor
@@ -87,15 +76,10 @@ export function Sponsors() {
                     aria-label={`${s.name} — ${s.note}`}
                     className="group relative flex aspect-square flex-col items-center justify-center gap-1.5 rounded-2xl border border-[#ffd23f]/30 bg-[#fff9ee] px-2 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#ffd23f] hover:shadow-[0_16px_36px_rgba(0,0,0,0.45)] focus-visible:-translate-y-1 focus-visible:ring-2 focus-visible:ring-volt-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b] focus-visible:outline-none"
                   >
-                    <svg
-                      viewBox="10 14 44 40"
-                      aria-hidden
+                    <SponsorMark
+                      name={s.name}
                       className="h-[42%] w-auto transition-transform duration-300 ease-out group-hover:-rotate-6 group-hover:scale-105 group-focus-visible:-rotate-6 group-focus-visible:scale-105"
-                    >
-                      <rect x="12" y="16" width="40" height="10" rx="5" fill="#ffd23f" />
-                      <rect x="12" y="29" width="28" height="10" rx="5" fill="#a9c7ff" />
-                      <rect x="12" y="42" width="15" height="10" rx="5" fill="#ff5ca8" />
-                    </svg>
+                    />
                     <span className="font-display text-[9px] font-semibold leading-none tracking-[-0.01em] text-[#221139] sm:text-[10px]">
                       {s.name}
                     </span>
@@ -105,7 +89,7 @@ export function Sponsors() {
                 {Array.from({ length: openSlots }, (_, i) => (
                   <a
                     key={`open-${i}`}
-                    href={MAILTO}
+                    href={SPONSOR_MAILTO}
                     aria-label={`Sponsor slot ${SPONSORS.length + i + 1} — email Rahul about sponsoring stackit`}
                     className="group flex aspect-square items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.02] transition-colors duration-300 hover:border-volt-400/50 hover:bg-volt-400/[0.05]"
                   >

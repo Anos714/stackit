@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GithubMark } from "./GithubMark";
 import { Logo } from "./Logo";
+import { NavbarSponsors } from "./NavbarSponsors";
 
 const LINKS = [
   { href: "/#stacks", label: "Stacks" },
@@ -64,13 +65,16 @@ export function Navbar({ weeklyDownloads = null, stars = null }: NavbarProps) {
           </div>
 
           <div className="hidden items-center gap-2.5 md:flex">
+            <div className="hidden lg:flex">
+              <NavbarSponsors />
+            </div>
             {weeklyDownloads !== null && (
               <a
                 href="https://www.npmjs.com/package/create-stackit-app"
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`${nf.format(weeklyDownloads)} npm downloads this week`}
-                className="hidden h-9 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] pl-3 pr-3.5 transition-colors hover:border-white/20 hover:bg-white/[0.06] lg:inline-flex"
+                className="hidden h-9 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] pl-3 pr-3.5 transition-colors hover:border-white/20 hover:bg-white/[0.06] xl:inline-flex"
               >
                 <span aria-hidden className="size-2 shrink-0 rounded-full bg-emerald-400" />
                 <span className="font-mono text-[12px] font-semibold tabular-nums text-zinc-100">
@@ -172,6 +176,12 @@ export function Navbar({ weeklyDownloads = null, stars = null }: NavbarProps) {
                 </span>
               )}
             </a>
+            <div className="mt-4 flex items-center gap-3 border-t border-white/10 px-1 pt-4">
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-600">
+                sponsors
+              </span>
+              <NavbarSponsors onNavigate={() => setOpen(false)} />
+            </div>
           </div>
         )}
       </nav>
