@@ -35,10 +35,28 @@ export function Navbar({ weeklyDownloads = null, stars = null }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   return (
     <header className="fixed inset-x-0 top-0 z-50">
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-[#09090b]/60 backdrop-blur-sm md:hidden"
+          onClick={() => setOpen(false)}
+          aria-hidden
+        />
+      )}
       <nav
-        className={`transition-all duration-300 ${
+        className={`relative z-50 transition-all duration-300 ${
           scrolled ? "border-b border-white/10 bg-[#09090b]/85 backdrop-blur-xl" : "bg-transparent"
         }`}
       >
