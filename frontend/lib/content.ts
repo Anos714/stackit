@@ -1,3 +1,5 @@
+import { SPONSOR_PAYMENT_HREF, SPONSOR_PRICE } from "./sponsors";
+
 export interface Stack {
   id: string;
   label: string;
@@ -187,10 +189,10 @@ export const FAQS: Faq[] = [
   },
   {
     q: "How do I sponsor stackit?",
-    a: "Sponsor slots are $10 one-time. What you get: your logo tile on this page plus a link to your site. Click any open slot — it opens a pre-filled email. Send your logo, name and link, pay $10 on Buy Me a Coffee, then email the receipt. Your logo goes live within an hour.",
+    a: `Sponsor slots are ${SPONSOR_PRICE} one-time on Buy Me a Coffee. What you get: your logo tile on this page plus a link to your site. Click any open slot — it opens a pre-filled email. Send your logo, name and link, pay ${SPONSOR_PRICE} on Buy Me a Coffee, then email the receipt. Your logo goes live within an hour.`,
     links: [
       { label: "Pick an open slot", href: "#sponsors" },
-      { label: "Pay $10 on Buy Me a Coffee", href: "https://buymeacoffee.com/anos714" },
+      { label: `Pay ${SPONSOR_PRICE} on Buy Me a Coffee`, href: SPONSOR_PAYMENT_HREF },
     ],
   },
 ];

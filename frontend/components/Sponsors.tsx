@@ -1,5 +1,5 @@
 import { ArrowUpRight, Coffee, Package, Plus } from "lucide-react";
-import { SPONSOR_MAILTO, SPONSOR_SLOT_COUNT, SPONSORS } from "../lib/sponsors";
+import { SPONSOR_MAILTO, SPONSOR_PRICE, SPONSOR_SLOT_COUNT, SPONSORS } from "../lib/sponsors";
 import { GithubMark } from "./GithubMark";
 import { Reveal } from "./Reveal";
 import { SponsorMark } from "./SponsorMark";
@@ -43,7 +43,7 @@ export function Sponsors() {
               </p>
               <p className="mt-4 text-[13px] leading-relaxed text-zinc-500">
                 <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-volt-300">
-                  $10 one-time
+                  {SPONSOR_PRICE} one-time
                 </span>
                 <span className="mx-2 text-zinc-700">/</span>
                 logo tile + link to your site, live within an hour.

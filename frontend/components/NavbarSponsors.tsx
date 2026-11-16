@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { SPONSOR_MAILTO, SPONSORS } from "../lib/sponsors";
+import { SPONSOR_MAILTO, SPONSOR_PRICE, SPONSORS } from "../lib/sponsors";
 import { SponsorMark } from "./SponsorMark";
 
 /** Compact sponsor strip for the navbar: real logos first, then an open slot. */
@@ -26,8 +26,8 @@ export function NavbarSponsors({ onNavigate }: { onNavigate?: () => void }) {
       <a
         href={SPONSOR_MAILTO}
         onClick={onNavigate}
-        title="Sponsor stackit — $10 one-time"
-        aria-label="Sponsor stackit — open a slot for $10 one-time"
+        title={`Sponsor stackit — ${SPONSOR_PRICE} on Buy Me a Coffee`}
+        aria-label={`Sponsor stackit — open a slot for ${SPONSOR_PRICE} on Buy Me a Coffee`}
         className="group flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] border border-dashed border-white/15 bg-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-volt-400/50 hover:bg-volt-400/[0.05] focus-visible:ring-2 focus-visible:ring-volt-400/70 focus-visible:outline-none"
       >
         <Plus className="h-3.5 w-3.5 text-zinc-600 transition-all duration-300 group-hover:rotate-90 group-hover:text-volt-300" />

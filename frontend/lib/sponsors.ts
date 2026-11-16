@@ -3,6 +3,11 @@ export const SPONSOR_MAILTO =
 
 export const SPONSOR_SLOT_COUNT = 6;
 
+/** Sponsors pay what they like, but $3 is the suggested amount. */
+export const SPONSOR_PRICE = "$3";
+
+export const SPONSOR_PAYMENT_HREF = "https://buymeacoffee.com/anos714";
+
 export type Sponsor = {
   name: string;
   note: string;
